@@ -2,15 +2,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using net_moto_bot.API.Extensions;
-using net_moto_bot.Application.Interfaces.Custom;
-using net_moto_bot.Application.Interfaces.Public;
-using net_moto_bot.Application.Services.Custom;
-using net_moto_bot.Application.Services.Public;
-using net_moto_bot.Domain.Interfaces.Public;
 using net_moto_bot.Infrastructure.Connectoins;
-using net_moto_bot.Infrastructure.Repositories.Public;
 using System.Text;
-using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,18 +20,9 @@ builder.Services.AddDbContext<PostgreSQLContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection"));
 });
 
-#region Declare all repositories sorted alphabetically
-// Public schema
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-#endregion
-
-#region Services sorted alphabetically.
-// Singleton
-builder.Services.AddSingleton<IJWTService, JWTService>();
-
-// Public schema
-builder.Services.AddScoped<IUserService, UserService>();
-#endregion
+// Declare all repositories and services
+builder.Services.AddAppServices();
+builder.Services.AddAppRespositories();
 
 // Enable Cors
 builder.Services.AddCors(options =>
