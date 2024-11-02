@@ -11,4 +11,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\net-moto-bot.Application\net-moto-bot.Application.csproj" />
+    <ProjectReference Include="..\net-moto-bot.Domain\net-moto-bot.Domain.csproj" />
+    <ProjectReference Include="..\net-moto-bot.Infrastructure\net-moto-bot.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

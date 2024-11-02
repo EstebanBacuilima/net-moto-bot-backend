@@ -7,4 +7,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BCrypt\BCrypt.csproj" />
+    <ProjectReference Include="..\net-moto-bot.Domain\net-moto-bot.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
