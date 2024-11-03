@@ -10,6 +10,9 @@ public static class DependencyInjectionServiceRepository
     {
         // Public schema
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+        services.AddScoped<IBrandRepository, BrandRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         return services;
     }
