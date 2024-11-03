@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using net_moto_bot.Domain.Entities;
 
-namespace net_moto_bot.Domain.Interfaces.Public
+namespace net_moto_bot.Domain.Interfaces.Public;
+
+public interface IEmployeeRepository
 {
-    internal interface IEmployeeRepository
-    {
-    }
+    public Task<List<Employee>> FindAllAsync(
+      string name = "",
+      string idCard = ""
+    );
+    public Task<Employee> SaveAsync(Employee employee);
+    public Task<Employee?> FindByCodeAsync(string code);
+    public Task<Employee> UpdateAsync(Employee employee);
+    public Task<Employee> UpdateActiveAsync(Employee employee);
 }

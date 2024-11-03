@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using net_moto_bot.Domain.Entities;
 
-namespace net_moto_bot.Domain.Interfaces.Public
+namespace net_moto_bot.Domain.Interfaces.Public;
+
+public interface IPersonRepository
 {
-    internal interface IPersonRepository
-    {
-    }
+    public Task<Person> SaveAsync(Person person);
+    public Task<Person?> FindByCodeAsync(string code);
+    public Task<Person> UpdateAsync(Person person);
+    public Task<Person> UpdateActiveAsync(Person person);
+    public Task<bool> ExistIdCardAsync(string idCard);
 }

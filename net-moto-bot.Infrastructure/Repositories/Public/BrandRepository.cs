@@ -40,17 +40,17 @@ public class BrandRepository(
 
     public async Task<Brand> UpdateActveAsync(Brand brand)
     {
-        brand = await _context.Brands.FirstAsync(b => b.Code.Equals(brand.Code));
-        brand.Active = brand.Active;
+        var finded = await _context.Brands.FirstAsync(b => b.Code.Equals(brand.Code));
+        finded.Active = brand.Active;
         await _context.SaveChangesAsync();
         return brand;
     }
 
     public async Task<Brand> UpdateAsync(Brand brand)
     {
-        brand = await _context.Brands.FirstAsync(b => b.Code.Equals(brand.Code));
-        brand.Name = brand.Name;
-        brand.Description = brand.Description;
+        var finded = await _context.Brands.FirstAsync(b => b.Code.Equals(brand.Code));
+        finded.Name = brand.Name;
+        finded.Description = brand.Description;
         await _context.SaveChangesAsync();
         return brand;
     }

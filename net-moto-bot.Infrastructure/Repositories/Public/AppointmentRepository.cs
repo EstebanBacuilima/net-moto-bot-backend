@@ -42,16 +42,16 @@ public class AppointmentRepository(
 
     public async Task<Appointment> UpdateActiveAsync(Appointment appointment)
     {
-        appointment = await _context.Appointments.FirstAsync(c => c.Code.Equals(appointment.Code));
-        appointment.Observation = appointment.Observation;
+        var finded = await _context.Appointments.FirstAsync(c => c.Code.Equals(appointment.Code));
+        finded.Observation = appointment.Observation;
         await _context.SaveChangesAsync();
         return appointment;
     }
 
     public async Task<Appointment> UpdateAsync(Appointment appointment)
     {
-        appointment = await _context.Appointments.FirstAsync(c => c.Code.Equals(appointment.Code));
-        appointment.Active = appointment.Active;
+        var finded = await _context.Appointments.FirstAsync(c => c.Code.Equals(appointment.Code));
+        finded.Active = appointment.Active;
         await _context.SaveChangesAsync();
         return appointment;
     }

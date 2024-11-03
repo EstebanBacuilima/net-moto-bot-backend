@@ -40,16 +40,16 @@ public class CategoryRepository(
 
     public async Task<Category> UpdateActveAsync(Category category)
     {
-        category = await _context.Categories.FirstAsync(c => c.Code.Equals(category.Code));
-        category.Active = category.Active;
+        var finded = await _context.Categories.FirstAsync(c => c.Code.Equals(category.Code));
+        finded.Active = category.Active;
         await _context.SaveChangesAsync();
         return category;
     }
 
     public async Task<Category> UpdateAsync(Category category)
     {
-        category = await _context.Categories.FirstAsync(c => c.Code.Equals(category.Code));
-        category.Active = category.Active;
+        var finded = await _context.Categories.FirstAsync(c => c.Code.Equals(category.Code));
+        finded.Active = category.Active;
         await _context.SaveChangesAsync();
         return category;
     }
