@@ -8,5 +8,9 @@ public interface IUserService
 {
     public Task<List<User>> GetAllAsync();
 
+    public Task<User?> GetByCodeAsync(string code);
+
+    public Task<User?> GetByIdAsync(long id);
+
     public Task<string> SignInAsync(LoginRequestDto loginRequestDto);
 }

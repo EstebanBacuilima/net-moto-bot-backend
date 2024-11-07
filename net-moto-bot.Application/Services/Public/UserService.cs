@@ -8,13 +8,25 @@ using net_moto_bot.Domain.Interfaces.Public;
 
 namespace net_moto_bot.Application.Services.Public;
 
-public class UserService(IUserRepository _repository, IJWTService _jwtService) : IUserService
+public class UserService(
+    IUserRepository _repository, 
+    IJWTService _jwtService) : IUserService
 {
     public Task<List<User>> GetAllAsync()
     {       
         return _repository.FindAllAsync();
     }
-        
+
+    public Task<User?> GetByCodeAsync(string code) 
+    {
+        return _repository.FindByCodeAsync(code);
+    }
+
+    public Task<User?> GetByIdAsync(long id)
+    {
+        return _repository.FindByIdAsync(id);
+    }
+
     public async Task<string> SignInAsync(LoginRequestDto loginRequestDto)
     {
         User? user = await _repository.FindByEmailAsync(loginRequestDto.Email.Trim()) ?? throw new BadCredentialException(ExceptionEnum.UserNotFound);

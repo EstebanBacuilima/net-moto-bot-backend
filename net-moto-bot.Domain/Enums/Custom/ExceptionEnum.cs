@@ -2,6 +2,7 @@
 
 public enum ExceptionEnum : short
 {
+    InvalidExtensionType,
     /// <summary>
     /// Thrown if there already exists an account with the email address asserted by the credential.
     /// </summary>

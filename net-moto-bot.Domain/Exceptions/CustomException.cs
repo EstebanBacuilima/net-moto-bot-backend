@@ -2,14 +2,9 @@
 
 namespace net_moto_bot.Domain.Exceptions;
 
-public class CustomException : Exception
+public class CustomException(ExceptionEnum exceptionEnum) : Exception
 {
-    private readonly ExceptionEnum _exceptionEnum;
-
-    public CustomException(ExceptionEnum exceptionEnum)
-    {
-        _exceptionEnum = exceptionEnum;
-    }
+    private readonly ExceptionEnum _exceptionEnum = exceptionEnum;
 
     public string Code
     {
@@ -17,6 +12,7 @@ public class CustomException : Exception
         {
             return _exceptionEnum switch
             {
+                ExceptionEnum.InvalidExtensionType => "invalid-extension-type",
                 ExceptionEnum.AccountExistsWithDifferentCredential => "account-exists-with-different-credential",
                 ExceptionEnum.AlreadyExistsCompanyWithThatIdCard => "already-exists-company-with-that-id-card",
                 ExceptionEnum.EmailAlreadyExists => "email-already-in-use",

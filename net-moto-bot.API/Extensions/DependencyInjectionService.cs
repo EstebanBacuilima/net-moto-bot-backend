@@ -1,6 +1,7 @@
-﻿using net_moto_bot.Application.Interfaces.Custom;
+﻿using AutoMapper;
+using net_moto_bot.Application.Interfaces.Custom;
 using net_moto_bot.Application.Interfaces.Public;
-using net_moto_bot.Application.Services;
+using net_moto_bot.Application.Mappers;
 using net_moto_bot.Application.Services.Custom;
 using net_moto_bot.Application.Services.Public;
 using net_moto_bot.Domain.Interfaces.Public;
@@ -13,6 +14,14 @@ public static class DependencyInjectionService
     // Services
     public static IServiceCollection AddAppServices(this IServiceCollection services)
     {
+        // Add mapper configuration.
+        var mapperConfig = new MapperConfiguration(mc =>
+        {
+            mc.AddProfile(new MappingProfile());
+        });
+        IMapper mapper = mapperConfig.CreateMapper();
+        services.AddSingleton(mapper);
+
         // Singleton
         services.AddSingleton<IJWTService, JWTService>();
 
@@ -21,6 +30,8 @@ public static class DependencyInjectionService
 
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IRoleService, RoleService>();
+        services.AddScoped<IUserChatService, UserChatService>();
+
 
         return services;
     }

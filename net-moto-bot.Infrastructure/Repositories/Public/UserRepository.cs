@@ -16,6 +16,19 @@ public class UserRepository (PostgreSQLContext _context) : IUserRepository
             .FirstOrDefaultAsync(u => u.Email.Equals(email));
     }
 
+    public Task<User?> FindByCodeAsync(string code) 
+    {
+        return _context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Code.Equals(code));
+    }
+    public Task<User?> FindByIdAsync(long id)
+    {
+        return _context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Id == id);
+    }
+
     public Task<List<User>> FindAllAsync() 
     {
         return _context.Users.AsNoTracking().ToListAsync();

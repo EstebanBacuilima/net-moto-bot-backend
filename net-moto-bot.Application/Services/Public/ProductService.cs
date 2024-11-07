@@ -4,7 +4,7 @@ using net_moto_bot.Domain.Enums.Custom;
 using net_moto_bot.Domain.Exceptions.BadRequest;
 using net_moto_bot.Domain.Interfaces.Public;
 
-namespace net_moto_bot.Application.Services;
+namespace net_moto_bot.Application.Services.Public;
 
 public class ProductService(IProductRepository _repository) : IProductService
 {
@@ -22,7 +22,7 @@ public class ProductService(IProductRepository _repository) : IProductService
         finded.Description = product.Description;
         finded.Sku = product.Sku;
 
-        return await _repository.UpdateAsync(product);
+        return await _repository.UpdateAsync(finded);
     }
 
     public Task<List<Product>> GetAllAsync()

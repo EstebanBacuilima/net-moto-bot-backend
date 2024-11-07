@@ -1,4 +1,6 @@
-﻿namespace net_moto_bot.Domain.Entities;
+﻿using System.Text.Json.Serialization;
+
+namespace net_moto_bot.Domain.Entities;
 
 public partial class User
 {
@@ -25,13 +27,14 @@ public partial class User
 
     public string? VerificationCode { get; set; }
 
-    public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
+    public virtual ICollection<Customer> Customers { get; set; } = [];
 
-    public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
+    public virtual ICollection<Employee> Employees { get; set; } = [];
 
     public virtual Person Person { get; set; } = null!;
 
-    public virtual ICollection<UserChat> UserChats { get; set; } = new List<UserChat>();
+    [JsonIgnore]
+    public virtual ICollection<UserChat> UserChats { get; set; } = [];
 
-    public virtual ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+    public virtual ICollection<UserRole> UserRoles { get; set; } = [];
 }
