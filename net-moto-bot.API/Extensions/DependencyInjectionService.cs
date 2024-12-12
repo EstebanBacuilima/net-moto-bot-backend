@@ -24,11 +24,13 @@ public static class DependencyInjectionService
 
         // Singleton
         services.AddSingleton<IJWTService, JWTService>();
+        services.AddSingleton<IUploadFileService, UploadFileService>();
 
         // Public schema
         services.AddScoped<IUserService, UserService>();
 
         services.AddScoped<IProductService, ProductService>();
+        services.AddScoped<IProductFileService, ProductFileService>();
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IUserChatService, UserChatService>();
 

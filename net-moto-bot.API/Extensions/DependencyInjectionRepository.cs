@@ -1,4 +1,5 @@
-﻿using net_moto_bot.Domain.Interfaces.Public;
+﻿using net_moto_bot.Application.Interfaces.Public;
+using net_moto_bot.Domain.Interfaces.Public;
 using net_moto_bot.Infrastructure.Repositories.Public;
 
 namespace net_moto_bot.API.Extensions;
@@ -20,6 +21,7 @@ public static class DependencyInjectionServiceRepository
 
         
         services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IProductFileRepository, ProductFileRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserChatRepository, UserChatRepository>();
 
