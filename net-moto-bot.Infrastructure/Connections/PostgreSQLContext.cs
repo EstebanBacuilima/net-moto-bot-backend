@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using net_moto_bot.Domain.Entities;
+using System.Text;
 
 namespace net_moto_bot.Infrastructure.Connectoins;
 
@@ -41,6 +43,59 @@ public partial class PostgreSQLContext : DbContext
     public virtual DbSet<UserChat> UserChats { get; set; }
 
     public virtual DbSet<UserRole> UserRoles { get; set; }
+
+    // <summary>
+    /// Generate random code.
+    /// </summary>
+    /// <param name="length">The code length.</param>
+    /// <returns>A string code.</returns>
+    private static string GenerateCode(short length = 20)
+    {
+        char[] _chars =
+        [
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+                'k', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+                'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',
+                'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'o',
+                'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+                'z', '0', '1', '2', '3', '4', '5', '6', '7', '8',
+                '9'
+        ];
+        StringBuilder sb = new();
+        Random random = new();
+        for (int i = 0; i < length; i++)
+        {
+            sb.Append(_chars[random.Next(0, _chars.Length)]);
+        }
+        return sb.ToString();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        IEnumerable<EntityEntry> entries = ChangeTracker.Entries().Where(entry =>
+        {
+            return entry.State == EntityState.Added || entry.State == EntityState.Modified;
+        });
+        foreach (EntityEntry entry in entries)
+        {
+            // Always change update date.
+            if (entry.Entity.GetType().GetProperty("UpdateDate") != null) Entry(entry.Entity).Property("UpdateDate").CurrentValue = DateTime.UtcNow;
+
+            if (entry.State == EntityState.Added)
+            {
+                if (entry.Entity.GetType().GetProperty("Code") != null) Entry(entry.Entity).Property("Code").CurrentValue = GenerateCode();
+                if (entry.Entity.GetType().GetProperty("Active") != null) Entry(entry.Entity).Property("Active").CurrentValue = true;
+                if (entry.Entity.GetType().GetProperty("CreationDate") != null) Entry(entry.Entity).Property("CreationDate").CurrentValue = DateTime.UtcNow;
+            }
+            else if (entry.State == EntityState.Modified)
+            {
+                // Avoid modified creation date and Code.
+                if (entry.Entity.GetType().GetProperty("CreationDate") != null) Entry(entry.Entity).Property("CreationDate").IsModified = false;
+                if (entry.Entity.GetType().GetProperty("Code") != null) Entry(entry.Entity).Property("Code").IsModified = false;
+            }
+        }
+        return base.SaveChangesAsync(cancellationToken);
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

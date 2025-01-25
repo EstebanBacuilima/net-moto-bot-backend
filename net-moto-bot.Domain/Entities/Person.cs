@@ -1,4 +1,6 @@
-﻿namespace net_moto_bot.Domain.Entities;
+﻿using System.Text.Json.Serialization;
+
+namespace net_moto_bot.Domain.Entities;
 
 public partial class Person
 {
@@ -20,9 +22,12 @@ public partial class Person
 
     public DateTime UpadateDate { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<Customer> Customers { get; set; } = new List<Customer>();
 
+    [JsonIgnore]
     public virtual ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
+    [JsonIgnore]
     public virtual ICollection<User> Users { get; set; } = new List<User>();
 }
