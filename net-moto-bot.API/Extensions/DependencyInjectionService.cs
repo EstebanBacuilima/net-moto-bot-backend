@@ -33,7 +33,8 @@ public static class DependencyInjectionService
         services.AddScoped<IProductFileService, ProductFileService>();
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IUserChatService, UserChatService>();
-
+        services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IBrandService, BrandService>();
 
         return services;
     }
