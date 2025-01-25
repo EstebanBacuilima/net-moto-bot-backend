@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using net_moto_bot.API.Handlers;
-using net_moto_bot.Application.Dtos.Public;
+using net_moto_bot.Application.Dtos.Public.Request;
 using net_moto_bot.Application.Interfaces.Public;
 
 namespace net_moto_bot.API.Controllers.V1;

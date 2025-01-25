@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
+﻿
 namespace net_moto_bot.Domain.Entities;
 
 public partial class Product
@@ -10,11 +9,11 @@ public partial class Product
 
     public int BrandId { get; set; }
 
-    public string Code { get; set; } = null!;
+    public string Code { get; set; } = string.Empty;
 
-    public string Name { get; set; } = null!;
+    public string Name { get; set; } = string.Empty;
 
-    public string Sku { get; set; } = null!;
+    public string Sku { get; set; } = string.Empty;
 
     public string? Description { get; set; }
 
@@ -28,6 +27,5 @@ public partial class Product
 
     public virtual Category? Category { get; set; }
 
-    [JsonIgnore]
     public virtual ICollection<ProductFile> ProductFiles { get; set; } = [];
 }

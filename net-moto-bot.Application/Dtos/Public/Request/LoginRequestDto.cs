@@ -1,5 +1,4 @@
-﻿
-namespace net_moto_bot.Application.Dtos.Public;
+﻿namespace net_moto_bot.Application.Dtos.Public.Request;
 
 public class LoginRequestDto
 {

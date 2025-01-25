@@ -5,6 +5,7 @@ namespace net_moto_bot.Domain.Interfaces.Public;
 public interface IEstablishmentRepository
 {
     public Task<List<Establishment>> FindAllAsync(
+      bool? active,
       string name = "",
       string description = ""
     );

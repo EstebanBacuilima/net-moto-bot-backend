@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using net_moto_bot.API.Handlers;
 using net_moto_bot.Application.Interfaces.Public;
-using net_moto_bot.Domain.Entities;
-
 namespace net_moto_bot.API.Controllers.V1;
 
 [Route("api/v1/product-file")]
@@ -13,10 +11,18 @@ public class ProductFileController(IProductFileService _service) : CommonControl
 {
     [HttpPost, Route("bulk-create")]
     public async Task<IActionResult> BulkCreateAsync(
-        [FromForm] List<IFormFile> files, 
-        [FromQuery(Name ="product_id")] int productId)
+        [FromForm] List<IFormFile> files,
+        [FromQuery(Name = "product_id")] int productId)
     {
         return Ok(ResponseHandler.Ok(await _service.BulkCreateAsync(files, productId)));
+    }
+
+    [HttpPatch, Route("modify/change-state/{code}")]
+    public IActionResult ChangeState(
+        [FromBody] bool active, string code)
+    {
+        _service.ChangeState(code, active);
+        return Ok(ResponseHandler.Ok());
     }
 
     [HttpPost, Route("create")]
@@ -27,25 +33,25 @@ public class ProductFileController(IProductFileService _service) : CommonControl
         return Ok(ResponseHandler.Ok(await _service.CreateAsync(file, productId)));
     }
 
-    [HttpGet, Route("list/by-product-id")]
-    public async Task<IActionResult> GetAllByProductIdAsync(
-        [FromQuery(Name = "product_id")] int productId)
+    [HttpDelete, Route("delete/{code}")]
+    public IActionResult DeleteByCode(string code)
     {
-        return Ok(ResponseHandler.Ok(await _service.GetAllByProductIdAsync(productId)));
+        _service.DeleteByCode(code);
+        return Ok(ResponseHandler.Ok());
     }
 
     [HttpGet, Route("list/by-product-code")]
     public async Task<IActionResult> GetAllByProductCodeAsync(
-       [FromQuery(Name = "product_code")] string productCode)
+       [FromQuery(Name = "code")] string productCode)
     {
         return Ok(ResponseHandler.Ok(await _service.GetAllByProductCodeAsync(productCode)));
     }
 
-    [HttpPatch, Route("change-state")]
-    public IActionResult ChangeState(
-        [FromBody] bool state, [FromQuery] int id)
+    [HttpGet, Route("list/by-product-id")]
+    [Authorize]
+    public async Task<IActionResult> GetAllByProductIdAsync(
+        [FromQuery(Name = "id")] int productId)
     {
-        _service.ChangeState(id, state);
-        return Ok(ResponseHandler.Ok());
+        return Ok(ResponseHandler.Ok(await _service.GetAllByProductIdAsync(productId)));
     }
 }

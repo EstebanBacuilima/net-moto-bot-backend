@@ -9,12 +9,14 @@ public class CustomerRepository(
     PostgreSQLContext _context
 ) : ICustomerRepository
 {
-    public Task<List<Customer>> FindAllAsync(string name = "", string idCard = "")
+    public Task<List<Customer>> FindAllAsync(bool? active, string name = "", string idCard = "")
     {
         return _context.Customers
             .AsNoTracking()
+            .Include(e => e.Person)
             .Where(c => (string.IsNullOrEmpty(name) || c.Person.FirstName.ToUpper().Contains(name.ToUpper())) &&
-                        (string.IsNullOrEmpty(idCard) || c.Person.IdCard.ToUpper().Contains(idCard.ToUpper())) && c.Active)
+                        (string.IsNullOrEmpty(idCard) || c.Person.IdCard.ToUpper().Contains(idCard.ToUpper())) && 
+                        (!active.HasValue || active.Value == c.Active))
             .ToListAsync();
     }
 
@@ -37,7 +39,7 @@ public class CustomerRepository(
         var finded = await _context.Customers.FirstAsync(c => c.Code.Equals(customer.Code));
         finded.Active = customer.Active;
         await _context.SaveChangesAsync();
-        return customer;
+        return finded;
     }
 
     public async Task<Customer> UpdateAsync(Customer customer)
@@ -45,6 +47,6 @@ public class CustomerRepository(
         var finded = await _context.Customers.FirstAsync(c => c.Code.Equals(customer.Code));
         finded.Active = customer.Active;
         await _context.SaveChangesAsync();
-        return customer;
+        return finded;
     }
 }

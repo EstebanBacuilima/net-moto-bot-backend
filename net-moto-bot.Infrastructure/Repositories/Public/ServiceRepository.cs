@@ -34,6 +34,20 @@ public class ServiceRepository(
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
+    public Task<Service?> FindByCodeAsync(string code)
+    {
+        return _context.Services
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Code.Equals(code));
+    }
+
+    public async Task ChangeStateAsync(string code, bool active)
+    {
+        var query = "UPDATE services SET active = {0} WHERE code = {1}";
+
+        await _context.Database.ExecuteSqlRawAsync(query, active, code);
+    }
+
     public async Task ChangeStateAsync(int id, bool active)
     {
         var query = "UPDATE services SET active = {0} WHERE id = {1}";
@@ -41,3 +55,4 @@ public class ServiceRepository(
         await _context.Database.ExecuteSqlRawAsync(query, active, id);
     }
 }
+

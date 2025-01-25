@@ -14,5 +14,7 @@ public interface IProductFileService
 
     public Task<List<ProductFile>> GetAllByProductCodeAsync(string productCode);
 
-    public void ChangeState(int id, bool state);
+    public void ChangeState(string code, bool state);
+
+    public void DeleteByCode(string code);
 }

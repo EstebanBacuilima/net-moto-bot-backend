@@ -9,12 +9,14 @@ public class EmployeeRepository(
     PostgreSQLContext _context
 ) : IEmployeeRepository
 {
-    public Task<List<Employee>> FindAllAsync(string name = "", string idCard = "")
+    public Task<List<Employee>> FindAllAsync(bool? active, string name = "", string idCard = "")
     {
         return _context.Employees
           .AsNoTracking()
+          .Include(e => e.Person)
           .Where(e => (string.IsNullOrEmpty(name) || e.Person.FirstName.ToUpper().Contains(name.ToUpper())) &&
-                      (string.IsNullOrEmpty(idCard) || e.Person.IdCard.ToUpper().Contains(idCard.ToUpper())) && e.Active)
+                      (string.IsNullOrEmpty(idCard) || e.Person.IdCard.ToUpper().Contains(idCard.ToUpper())) &&
+                      (!active.HasValue || active.Value == e.Active))
           .ToListAsync();
     }
 
@@ -34,17 +36,17 @@ public class EmployeeRepository(
 
     public async Task<Employee> UpdateActiveAsync(Employee employee)
     {
-        var finded = await _context.Customers.FirstAsync(c => c.Code.Equals(employee.Code));
+        var finded = await _context.Employees.FirstAsync(c => c.Code.Equals(employee.Code));
         finded.Active = employee.Active;
         await _context.SaveChangesAsync();
-        return employee;
+        return finded;
     }
 
     public async Task<Employee> UpdateAsync(Employee employee)
     {
-        var finded = await _context.Customers.FirstAsync(c => c.Code.Equals(employee.Code));
+        var finded = await _context.Employees.FirstAsync(c => c.Code.Equals(employee.Code));
         finded.Active = employee.Active;
         await _context.SaveChangesAsync();
-        return employee;
+        return finded;
     }
 }

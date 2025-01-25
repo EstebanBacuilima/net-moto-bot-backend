@@ -17,4 +17,9 @@
     <ProjectReference Include="..\net-moto-bot.Infrastructure\net-moto-bot.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\private\" />
+    <Folder Include="wwwroot\public\" />
+  </ItemGroup>
+
 </Project>
