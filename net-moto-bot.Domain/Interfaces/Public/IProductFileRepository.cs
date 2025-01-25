@@ -12,5 +12,7 @@ public interface IProductFileRepository
 
     public Task<List<ProductFile>> FindAllByProductCodeAsync(string productCode);
 
-    public void ChangeState(int id, bool state);
+    public void ChangeState(string code, bool state);
+
+    public void DeleteByCode(string code);
 }

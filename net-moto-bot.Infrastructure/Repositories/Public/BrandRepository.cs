@@ -43,7 +43,7 @@ public class BrandRepository(
         var finded = await _context.Brands.FirstAsync(b => b.Code.Equals(brand.Code));
         finded.Active = brand.Active;
         await _context.SaveChangesAsync();
-        return brand;
+        return finded;
     }
 
     public async Task<Brand> UpdateAsync(Brand brand)
@@ -52,6 +52,6 @@ public class BrandRepository(
         finded.Name = brand.Name;
         finded.Description = brand.Description;
         await _context.SaveChangesAsync();
-        return brand;
+        return finded;
     }
 }

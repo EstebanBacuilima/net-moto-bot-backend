@@ -28,12 +28,18 @@ public static class DependencyInjectionService
 
         // Public schema
         services.AddScoped<IUserService, UserService>();
-
+        services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<ICustomerService, CustomerService>();
+        services.AddScoped<IEmployeeService, EmployeeService>();
+        services.AddScoped<IServiceService, ServiceService>();
+        services.AddScoped<IBrandService, BrandService>();
+        services.AddScoped<IEstablishmentService, EstablishmentService>();
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<IProductFileService, ProductFileService>();
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IUserChatService, UserChatService>();
-
+        services.AddScoped<ICategoryService, CategoryService>();
+        services.AddScoped<IBrandService, BrandService>();
 
         return services;
     }

@@ -27,8 +27,10 @@ public partial class User
 
     public string? VerificationCode { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<Customer> Customers { get; set; } = [];
 
+    [JsonIgnore]
     public virtual ICollection<Employee> Employees { get; set; } = [];
 
     public virtual Person Person { get; set; } = null!;

@@ -1,13 +1,15 @@
-﻿namespace net_moto_bot.Domain.Entities;
+﻿using System.Text.Json.Serialization;
+
+namespace net_moto_bot.Domain.Entities;
 
 
 public partial class Establishment
 {
     public int Id { get; set; }
 
-    public string Code { get; set; } = null!;
+    public string Code { get; set; } = string.Empty;
 
-    public string Name { get; set; } = null!;
+    public string Name { get; set; } = string.Empty;
 
     public string? Description { get; set; }
 
@@ -21,5 +23,6 @@ public partial class Establishment
 
     public DateTime UpdateDate { get; set; }
 
-    public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+    [JsonIgnore]
+    public virtual ICollection<Appointment> Appointments { get; set; } = [];
 }

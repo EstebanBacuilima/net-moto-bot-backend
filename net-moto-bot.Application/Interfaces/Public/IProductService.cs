@@ -9,5 +9,6 @@ public interface IProductService
     public Task<Product> UpdateAsync(Product product);
     public Task<List<Product>> GetAllAsync();
     public Task<Product?> GetByIdAsync(int id);
-    public Task<Product> ChangeStateAsync(int id, bool active);
+    public Task<Product> ChangeStateAsync(string code, bool active);
+    public List<Product> GetAllByCategoryId(int categoryId);
 }

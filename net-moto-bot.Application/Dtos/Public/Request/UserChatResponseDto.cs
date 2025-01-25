@@ -1,5 +1,4 @@
-﻿
-namespace net_moto_bot.Application.Dtos.Public;
+﻿namespace net_moto_bot.Application.Dtos.Public.Request;
 
 public class UserChatResponseDto
 {
@@ -9,7 +8,7 @@ public class UserChatResponseDto
 
     public string Uddi { get; set; } = string.Empty;
 
-    public string ChatName { get; set; } =string.Empty;
+    public string ChatName { get; set; } = string.Empty;
 
     public string? Icon { get; set; }
 
