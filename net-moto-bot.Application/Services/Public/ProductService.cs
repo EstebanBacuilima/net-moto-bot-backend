@@ -15,9 +15,11 @@ public class ProductService(IProductRepository _repository) : IProductService
 
     public async Task<Product> UpdateAsync(Product product)
     {
-        Product? finded = await _repository.FindByIdAsync(product.Id)
+        Product? finded = await _repository.FindByCodeAsync(product.Code)
             ?? throw new BadRequestException(ExceptionEnum.EmailAlreadyExists);
 
+        finded.BrandId = product.BrandId;
+        finded.CategoryId = product.CategoryId;
         finded.Name = product.Name;
         finded.Description = product.Description;
         finded.Sku = product.Sku;
@@ -35,15 +37,20 @@ public class ProductService(IProductRepository _repository) : IProductService
         return _repository.FindByIdAsync(id);
     }
 
-    public async Task<Product> ChangeStateAsync(int id, bool active)
+    public async Task<Product> ChangeStateAsync(string code, bool active)
     {
-        Product? product = await _repository.FindByIdAsync(id)
+        Product? product = await _repository.FindByCodeAsync(code)
             ?? throw new BadRequestException(ExceptionEnum.EmailAlreadyExists);
 
         product.Active = active;
 
-        await _repository.ChangeStateAsync(id, active);
+        await _repository.ChangeStateAsync(code, active);
 
         return product;
+    }
+
+    public List<Product> GetAllByCategoryId(int categoryId)
+    {
+        return _repository.FindAllByCategoryId(categoryId);
     }
 }

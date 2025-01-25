@@ -1,5 +1,4 @@
-﻿
-using net_moto_bot.Application.Dtos.Public;
+﻿using net_moto_bot.Application.Dtos.Public.Request;
 
 namespace net_moto_bot.Application.Interfaces.Public;
 

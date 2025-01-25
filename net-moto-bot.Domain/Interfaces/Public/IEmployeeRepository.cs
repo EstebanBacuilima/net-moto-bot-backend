@@ -5,8 +5,9 @@ namespace net_moto_bot.Domain.Interfaces.Public;
 public interface IEmployeeRepository
 {
     public Task<List<Employee>> FindAllAsync(
-      string name = "",
-      string idCard = ""
+        bool? active,
+        string name = "",
+        string idCard = ""
     );
     public Task<Employee> SaveAsync(Employee employee);
     public Task<Employee?> FindByCodeAsync(string code);

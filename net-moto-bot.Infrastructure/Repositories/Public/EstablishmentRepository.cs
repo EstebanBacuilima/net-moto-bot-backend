@@ -9,12 +9,12 @@ public class EstablishmentRepository(
     PostgreSQLContext _context
 ) : IEstablishmentRepository
 {
-    public Task<List<Establishment>> FindAllAsync(string name = "", string description = "")
+    public Task<List<Establishment>> FindAllAsync(bool? active, string name = "", string description = "")
     {
         return _context.Establishments
           .AsNoTracking()
           .Where(e => (string.IsNullOrEmpty(name) || e.Name.ToUpper().Contains(name.ToUpper())) &&
-                        (string.IsNullOrEmpty(description) || e.Description!.ToUpper().Contains(description.ToUpper())) && e.Active)
+                        (string.IsNullOrEmpty(description) || e.Description!.ToUpper().Contains(description.ToUpper())) && (!active.HasValue || e.Active == active.Value))
           .ToListAsync();
     }
 
@@ -37,7 +37,7 @@ public class EstablishmentRepository(
         var finded = await _context.Establishments.FirstAsync(c => c.Code.Equals(establishment.Code));
         finded.Active = establishment.Active;
         await _context.SaveChangesAsync();
-        return establishment;
+        return finded;
     }
 
     public async Task<Establishment> UpdateAsync(Establishment establishment)
@@ -45,7 +45,9 @@ public class EstablishmentRepository(
         var finded = await _context.Establishments.FirstAsync(c => c.Code.Equals(establishment.Code));
         finded.Name = establishment.Name;
         finded.Description = establishment.Description;
+        finded.Latitude = establishment.Latitude;
+        finded.Longitude = establishment.Longitude;
         await _context.SaveChangesAsync();
-        return establishment;
+        return finded;
     }
 }

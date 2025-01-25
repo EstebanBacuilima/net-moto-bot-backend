@@ -9,5 +9,8 @@ public interface IProductRepository
     public Task<Product> UpdateAsync(Product product);
     public Task<List<Product>> FindAllAsync();
     public Task<Product?> FindByIdAsync(int id);
+    public Task<Product?> FindByCodeAsync(string code);
     public Task ChangeStateAsync(int id, bool active);
+    public Task ChangeStateAsync(string code, bool active);
+    public List<Product> FindAllByCategoryId(int categoryId);
 }

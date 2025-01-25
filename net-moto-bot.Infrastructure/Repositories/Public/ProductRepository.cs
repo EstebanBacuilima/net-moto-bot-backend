@@ -22,7 +22,10 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
 
     public Task<List<Product>> FindAllAsync()
     {
-        return _context.Products.AsNoTracking().ToListAsync();
+        return _context.Products
+            .AsNoTracking()
+            .Include(p => p.ProductFiles)
+            .ToListAsync();
     }
 
     public Task<Product?> FindByIdAsync(int id)
@@ -32,10 +35,47 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
+    public Task<Product?> FindByCodeAsync(string code)
+    {
+        return _context.Products
+            .AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Code.Equals(code));
+    }
+
     public async Task ChangeStateAsync(int id, bool active)
     {
         var query = "UPDATE products SET active = {0} WHERE id = {1}";
 
         await _context.Database.ExecuteSqlRawAsync(query, active, id);
+    }
+
+    public async Task ChangeStateAsync(string code, bool active)
+    {
+        var query = "UPDATE products SET active = {0} WHERE code = {1}";
+
+        await _context.Database.ExecuteSqlRawAsync(query, active, code);
+    }
+
+    public List<Product> FindAllByCategoryId(int categoryId)
+    {
+        return [.. _context.Products.AsNoTracking()
+            .Include(p => p.ProductFiles)
+            .Where(p => p.CategoryId == categoryId &&
+            p.Active &&
+            p.Category != null &&
+            p.Category.Active)
+            .Select(p => new Product(){
+                Id = p.Id,
+                CategoryId = p.CategoryId,
+                BrandId = p.BrandId,
+                Code = p.Code,
+                Name = p.Name,
+                Sku = p.Sku,
+                Description = p.Description,
+                Active = p.Active,
+                CreationDate = p.CreationDate,
+                UpdateDate = p.UpdateDate,
+                ProductFiles = p.ProductFiles.Where(pf => pf.Active).ToList()
+            })];
     }
 }

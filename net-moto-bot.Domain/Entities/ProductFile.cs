@@ -1,4 +1,6 @@
-﻿namespace net_moto_bot.Domain.Entities;
+﻿using System.Text.Json.Serialization;
+
+namespace net_moto_bot.Domain.Entities;
 
 public partial class ProductFile
 {
@@ -18,5 +20,6 @@ public partial class ProductFile
 
     public DateTime UpdateDate { get; set; }
 
+    [JsonIgnore]
     public virtual Product? Product { get; set; }
 }

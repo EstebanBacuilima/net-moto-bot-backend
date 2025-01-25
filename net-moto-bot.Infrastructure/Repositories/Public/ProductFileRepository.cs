@@ -4,6 +4,7 @@ using net_moto_bot.Domain.Entities;
 using net_moto_bot.Domain.Exceptions.BadRequest;
 using net_moto_bot.Domain.Interfaces.Public;
 using net_moto_bot.Infrastructure.Connectoins;
+using System;
 
 namespace net_moto_bot.Infrastructure.Repositories.Public;
 
@@ -39,14 +40,17 @@ public class ProductFileRepository(PostgreSQLContext _context) : IProductFileRep
             .ToListAsync();
     }
 
-    public void ChangeState(int id, bool state)
+    public void ChangeState(string code, bool active)
     {
-        ProductFile finded = _context.ProductFiles
-            .Where(pf => pf.Id == id)
-            .FirstOrDefault()
-            ?? throw new BadRequestException(Domain.Enums.Custom.ExceptionEnum.OperationNotAllowed);
+        string query = "UPDATE product_files SET active = {0} WHERE code = {1}";
 
-        finded.Active = state;
-        _context.SaveChanges();
+         _context.Database.ExecuteSqlRawAsync(query, active, code);
+    }
+
+    public void DeleteByCode(string code) 
+    {
+        string query = "delete from product_files where code = {0}";
+
+        _context.Database.ExecuteSqlRawAsync(query, code);
     }
 }

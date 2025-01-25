@@ -41,8 +41,13 @@ public class ProductFileService(
         return _repository.FindAllByProductCodeAsync(productCode);
     }
 
-    public void ChangeState(int id, bool state)
+    public void ChangeState(string code, bool state)
     {
-        _repository.ChangeState(id, state);
+        _repository.ChangeState(code, state);
+    }
+
+    public void DeleteByCode(string code) 
+    {
+        _repository.DeleteByCode(code);
     }
 }

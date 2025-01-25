@@ -43,14 +43,16 @@ public class CategoryRepository(
         var finded = await _context.Categories.FirstAsync(c => c.Code.Equals(category.Code));
         finded.Active = category.Active;
         await _context.SaveChangesAsync();
-        return category;
+        return finded;
     }
 
     public async Task<Category> UpdateAsync(Category category)
     {
         var finded = await _context.Categories.FirstAsync(c => c.Code.Equals(category.Code));
-        finded.Active = category.Active;
+
+        finded.Name = category.Name;
+        finded.Description = category.Description;
         await _context.SaveChangesAsync();
-        return category;
+        return finded;
     }
 }

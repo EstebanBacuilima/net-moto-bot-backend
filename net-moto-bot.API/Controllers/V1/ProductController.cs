@@ -8,14 +8,13 @@ namespace net_moto_bot.API.Controllers.V1;
 
 [Route("api/v1/product")]
 [ApiController]
-[Authorize]
+//[Authorize]
 public class ProductController(IProductService _service) : CommonController
 {
-    [HttpPatch, Route("modify/change-state")]
-    public async Task<IActionResult> ChangeStateAsync(
-        [FromQuery] int id, [FromBody] bool active)
+    [HttpPatch, Route("modify/change-state/{code}")]
+    public async Task<IActionResult> ChangeStateAsync([FromBody] bool active, string code)
     {
-        await _service.ChangeStateAsync(id, active);
+        await _service.ChangeStateAsync(code, active);
 
         return Ok(ResponseHandler.Ok());
     }
@@ -33,17 +32,23 @@ public class ProductController(IProductService _service) : CommonController
         return Ok(ResponseHandler.Ok(await _service.GetAllAsync()));
     }
 
-    [HttpGet, Route("by-id/{id}")]
+    [HttpGet, Route("list-by-category")]
+    public IActionResult GetAllByCategory([FromQuery] int id)
+    {
+        return Ok(ResponseHandler.Ok(_service.GetAllByCategoryId(id)));
+    }
+
+    [HttpGet, Route("find/by-id/{id}")]
     public async Task<IActionResult> GetByIdAsync(int id)
     {
         return Ok(ResponseHandler.Ok(await _service.GetByIdAsync(id)));
     }
 
-    [HttpPut, Route("update/{id}")]
+    [HttpPut, Route("update/{code}")]
     public async Task<IActionResult> UpdateAsync(
-        [FromBody] Product product, int id)
+        [FromBody] Product product, string code)
     {
-        product.Id = id;
+        product.Code = code;
         return Ok(ResponseHandler.Ok(await _service.UpdateAsync(product)));
     }
 }
