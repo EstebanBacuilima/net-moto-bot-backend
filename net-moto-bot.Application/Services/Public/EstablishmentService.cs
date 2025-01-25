@@ -1,4 +1,3 @@
-﻿
 using net_moto_bot.Application.Interfaces.Public;
 using net_moto_bot.Domain.Entities;
 using net_moto_bot.Domain.Interfaces.Public;
@@ -25,7 +24,7 @@ public class EstablishmentService(IEstablishmentRepository _repository) : IEstab
     {
         return _repository.FindByCodeAsync(code);
     }
-
+    
     public Task<Establishment> UpdateAsync(Establishment establishment)
     {
         return _repository.UpdateAsync(establishment);
@@ -39,5 +38,4 @@ public class EstablishmentService(IEstablishmentRepository _repository) : IEstab
             Active = active
         });
     }
-
 }

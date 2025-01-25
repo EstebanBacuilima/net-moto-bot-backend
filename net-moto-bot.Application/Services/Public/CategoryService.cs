@@ -36,5 +36,4 @@ public class CategoryService(
     {
         return _repository.UpdateActveAsync(new() { Code = code, Active = active });
     }
-
 }

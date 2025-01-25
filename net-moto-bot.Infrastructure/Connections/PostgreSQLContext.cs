@@ -44,6 +44,11 @@ public partial class PostgreSQLContext : DbContext
 
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
+    // <summary>
+    /// Generate random code.
+    /// </summary>
+    /// <param name="length">The code length.</param>
+    /// <returns>A string code.</returns>
     private static string GenerateCode(short length = 20)
     {
         char[] _chars =
@@ -73,8 +78,8 @@ public partial class PostgreSQLContext : DbContext
         });
         foreach (EntityEntry entry in entries)
         {
-
-            if (entry.Entity.GetType().GetProperty("UpdateDate") != null) Entry(entry.Entity).Property("UpdateDate").CurrentValue = DateTime.Now;
+            // Always change update date.
+            if (entry.Entity.GetType().GetProperty("UpdateDate") != null) Entry(entry.Entity).Property("UpdateDate").CurrentValue = DateTime.UtcNow;
             if (entry.State == EntityState.Added)
             {
                 if (entry.Entity.GetType().GetProperty("Code") != null) Entry(entry.Entity).Property("Code").CurrentValue = GenerateCode();

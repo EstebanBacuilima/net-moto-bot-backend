@@ -21,6 +21,18 @@ public class PersonRepository(
         return _context.People.AsNoTracking().FirstOrDefaultAsync(p => p.Code == code);
     }
 
+    public Task<List<Person>> FindByIdCardOrNameOrLastNameAsync(string idCard = "", string name = "", string lastName = "")
+    {
+        return _context.People
+         .AsNoTracking()
+         .Where(p =>
+                (string.IsNullOrEmpty(idCard) || p.IdCard.ToUpper().Contains(idCard.ToUpper())) &&
+                 (string.IsNullOrEmpty(name) || p.FirstName.ToUpper().Contains(name.ToUpper())) &&
+                  (string.IsNullOrEmpty(lastName) || p.LastName.ToUpper().Contains(lastName.ToUpper()))
+         )
+         .ToListAsync();
+    }
+
     public async Task<Person> SaveAsync(Person person)
     {
         await _context.People.AddAsync(person);
