@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using net_moto_bot.API.Handlers;
+using net_moto_bot.Application.Dtos.Custom;
 using net_moto_bot.Application.Interfaces.Public;
 using net_moto_bot.Domain.Entities;
 
@@ -10,7 +12,9 @@ namespace net_moto_bot.API.Controllers.V1;
 [ApiController]
 //[Authorize]
 public class CategoryController(
-    ICategoryService _service) : CommonController
+    ICategoryService _service,
+    IMapper _mapper
+) : CommonController
 {
     [HttpPatch, Route("modify/change-state/{code}")]
     public async Task<IActionResult> ChangeStateAsync(
@@ -21,9 +25,9 @@ public class CategoryController(
 
     [HttpPost, Route("create")]
     public async Task<IActionResult> CreateAsync(
-        [FromBody] Category category)
+        [FromBody] CategoryDTO category)
     {
-        return Ok(ResponseHandler.Ok(await _service.CreateAsync(category)));
+        return Ok(ResponseHandler.Ok(await _service.CreateAsync(_mapper.Map<Category>(category))));
     }
 
     [HttpGet, Route("list")]
@@ -34,9 +38,9 @@ public class CategoryController(
 
     [HttpPut, Route("update/{code}")]
     public async Task<IActionResult> UpdateAsync(
-        [FromBody] Category category, string code)
+        [FromBody] CategoryDTO category, string code)
     {
         category.Code = code;
-        return Ok(ResponseHandler.Ok(await _service.UpdateAsync(category)));
+        return Ok(ResponseHandler.Ok(await _service.UpdateAsync(_mapper.Map<Category>(category))));
     }
 }
