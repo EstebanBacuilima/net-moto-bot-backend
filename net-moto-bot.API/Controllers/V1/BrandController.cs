@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using net_moto_bot.API.Handlers;
+using net_moto_bot.Application.Dtos.Custom;
 using net_moto_bot.Application.Interfaces.Public;
 using net_moto_bot.Domain.Entities;
 
@@ -9,7 +11,9 @@ namespace net_moto_bot.API.Controllers.V1;
 [ApiController]
 //[Authorize]
 public class BrandController(
-    IBrandService _service) : CommonController
+    IBrandService _service,
+    IMapper _mapper
+) : CommonController
 {
     [HttpPatch, Route("modify/change-state/{code}")]
     public async Task<IActionResult> ChangeStateAsync(
@@ -20,9 +24,10 @@ public class BrandController(
 
     [HttpPost, Route("create")]
     public async Task<IActionResult> CreateAsync(
-        [FromBody] Brand brand)
+        [FromBody] BrandDTO brand
+    )
     {
-        return Ok(ResponseHandler.Ok(await _service.CreateAsync(brand)));
+        return Ok(ResponseHandler.Ok(await _service.CreateAsync(_mapper.Map<Brand>(brand))));
     }
 
     [HttpGet, Route("list")]

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using net_moto_bot.Application.Dtos.Custom;
 using net_moto_bot.Application.Dtos.Public.Request;
 using net_moto_bot.Domain.Entities;
 
@@ -9,5 +10,8 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<UserChatResponseDto, UserChat>().ReverseMap();
+
+        CreateMap<BrandDTO, Brand>();
+        CreateMap<Brand, BrandDTO>();
     }
 }
