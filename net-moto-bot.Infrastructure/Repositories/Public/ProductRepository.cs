@@ -25,6 +25,10 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
         return _context.Products
             .AsNoTracking()
             .Include(p => p.ProductFiles)
+            .Where(p => p.Active &&
+                        p.ProductFiles.Any(pf => pf.Active) &&
+                        p.Category != null &&
+                        p.Category.Active)
             .ToListAsync();
     }
 
@@ -61,9 +65,10 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
         return [.. _context.Products.AsNoTracking()
             .Include(p => p.ProductFiles)
             .Where(p => p.CategoryId == categoryId &&
-            p.Active &&
-            p.Category != null &&
-            p.Category.Active)
+                        p.Active &&
+                        p.ProductFiles.Any(pf => pf.Active) &&
+                        p.Category != null &&
+                        p.Category.Active )
             .Select(p => new Product(){
                 Id = p.Id,
                 CategoryId = p.CategoryId,
