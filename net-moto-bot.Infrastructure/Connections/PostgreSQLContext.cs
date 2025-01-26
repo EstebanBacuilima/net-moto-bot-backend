@@ -84,7 +84,7 @@ public partial class PostgreSQLContext : DbContext
             {
                 if (entry.Entity.GetType().GetProperty("Code") != null) Entry(entry.Entity).Property("Code").CurrentValue = GenerateCode();
                 if (entry.Entity.GetType().GetProperty("Active") != null) Entry(entry.Entity).Property("Active").CurrentValue = true;
-                if (entry.Entity.GetType().GetProperty("CreationDate") != null) Entry(entry.Entity).Property("CreationDate").CurrentValue = DateTime.Now;
+                if (entry.Entity.GetType().GetProperty("CreationDate") != null) Entry(entry.Entity).Property("CreationDate").CurrentValue = DateTime.UtcNow;
             }
             else if (entry.State == EntityState.Modified)
             {
