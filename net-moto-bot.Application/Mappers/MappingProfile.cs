@@ -13,5 +13,9 @@ public class MappingProfile : Profile
 
         CreateMap<BrandDTO, Brand>();
         CreateMap<Brand, BrandDTO>();
+
+        CreateMap<CategoryDTO, Category>();
+        CreateMap<Category, CategoryDTO>();
+
     }
 }
