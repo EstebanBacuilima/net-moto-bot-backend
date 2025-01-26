@@ -495,6 +495,9 @@ public partial class PostgreSQLContext : DbContext
             entity.Property(e => e.UpdateDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("update_date");
+            entity.Property(e => e.Icon)
+                .HasMaxLength(50)
+                .HasColumnName("icon");
         });
 
         modelBuilder.Entity<User>(entity =>
