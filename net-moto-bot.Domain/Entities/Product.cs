@@ -19,6 +19,8 @@ public partial class Product
 
     public bool Active { get; set; }
 
+    public decimal Price { get; set; }
+
     public DateTime CreationDate { get; set; }
 
     public DateTime UpdateDate { get; set; }
@@ -28,4 +30,5 @@ public partial class Product
     public virtual Category? Category { get; set; }
 
     public virtual ICollection<ProductFile> ProductFiles { get; set; } = [];
+
 }

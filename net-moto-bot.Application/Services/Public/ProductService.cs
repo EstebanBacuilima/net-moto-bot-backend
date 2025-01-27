@@ -23,6 +23,7 @@ public class ProductService(IProductRepository _repository) : IProductService
         finded.Name = product.Name;
         finded.Description = product.Description;
         finded.Sku = product.Sku;
+        finded.Price = product.Price;
 
         return await _repository.UpdateAsync(finded);
     }

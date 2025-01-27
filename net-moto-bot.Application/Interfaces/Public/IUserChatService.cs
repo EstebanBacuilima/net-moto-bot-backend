@@ -17,4 +17,9 @@ public interface IUserChatService
     public UserChat? GetByUserId(long userId);
 
     public UserChat? GetByCode(string code);
+
+    public Task<List<Dictionary<string, object?>>> GetAllMessagesByChatCodeAsync(string chatCode);
+
+
+    //public Task<Dictionary<string, object?>> GetAllMessagesByChatCodeAsync(string chatCode);
 }

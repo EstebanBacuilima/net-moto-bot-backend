@@ -1,10 +1,8 @@
 ﻿
-using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using net_moto_bot.Application.Interfaces.Mongo;
-using net_moto_bot.Domain.Enums.Custom;
-using net_moto_bot.Domain.Exceptions.BadRequest;
 using net_moto_bot.Domain.Interfaces.Mongo;
 using System.Text.Json;
 
@@ -19,31 +17,47 @@ public class MongoService(
         PropertyNameCaseInsensitive = true,
     };
 
-    public async Task<Dictionary<string, object?>> AddOrUpdate(string _id, Dictionary<string, object?> document)
+    public async Task<(Dictionary<string, object?>, bool)> SaveOrUpdateAsync(string _id, List<Dictionary<string, object?>> documents)
     {
         string collectionName = "chats";
 
-        string json = JsonSerializer.Serialize(document.ToDictionary(
-            kvp => char.ToLowerInvariant(kvp.Key[0]) + kvp.Key[1..],
-            kvp => kvp.Value
-        ), _serializerOptions);
+        Dictionary<string, object?> dictionary = [];
+        bool existDocument = await _repository.ExistsByCodeAndIdAsync(collectionName, _id);
 
-        BsonDocument bsonDocument = BsonDocument.Parse(json);
-
-        // Check if exist document
-        bool existDocument = await _repository.ExistsByCodeAndIdAsync(
-            collectionName: collectionName, string.Empty
-        );
         if (existDocument)
         {
-            FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
-            await _repository.UpdateAsync(collectionName, filter, bsonDocument);
+            FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq("_id", ObjectId.Parse(_id));
+            BsonDocument existingDocument = await _repository.FindDataAsync(collectionName, filter);
+
+            List<Dictionary<string, object?>> existingMessages = existingDocument["messages"]
+                .AsBsonArray
+                .Select(bsonValue => BsonSerializer.Deserialize<Dictionary<string, object?>>(bsonValue.AsBsonDocument))
+                .ToList();
+
+            existingMessages.AddRange(documents);
+
+            dictionary["messages"] = existingMessages;
+
+            string json = JsonSerializer.Serialize(dictionary, _serializerOptions);
+            BsonDocument updatedDocument = BsonDocument.Parse(json);
+
+            await _repository.UpdateAsync(collectionName, filter, updatedDocument);
         }
         else
         {
-            await _repository.SaveAsync(collectionName, bsonDocument);
+            dictionary["messages"] = documents;
+
+            string json = JsonSerializer.Serialize(dictionary, _serializerOptions);
+            BsonDocument newDocument = BsonDocument.Parse(json);
+
+            await _repository.SaveAsync(collectionName, newDocument);
         }
-        return bsonDocument.ToDictionary();
+
+        return (dictionary, existDocument);
     }
 
+    public Task<BsonDocument> GetDataAsync(FilterDefinition<BsonDocument> filter) 
+    {
+        return  _repository.FindDataAsync("chats", filter);
+    }
 }

@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using net_moto_bot.Application.Interfaces.Custom;
+using net_moto_bot.Application.Interfaces.Mongo;
 using net_moto_bot.Application.Interfaces.Public;
 using net_moto_bot.Application.Mappers;
 using net_moto_bot.Application.Services.Custom;
+using net_moto_bot.Application.Services.Mongo;
 using net_moto_bot.Application.Services.Public;
 using net_moto_bot.Domain.Interfaces.Public;
 using net_moto_bot.Infrastructure.Repositories.Public;
@@ -40,6 +42,8 @@ public static class DependencyInjectionService
         services.AddScoped<IUserChatService, UserChatService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IBrandService, BrandService>();
+        services.AddScoped<IMongoService, MongoService>();
+        
 
         return services;
     }

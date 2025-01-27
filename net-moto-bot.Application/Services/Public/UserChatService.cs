@@ -1,17 +1,20 @@
 ﻿
 using AutoMapper;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 using net_moto_bot.Application.Dtos.Public.Request;
 using net_moto_bot.Application.Dtos.Public.Response;
 using net_moto_bot.Application.Interfaces.Custom;
+using net_moto_bot.Application.Interfaces.Mongo;
 using net_moto_bot.Application.Interfaces.Public;
-using net_moto_bot.Application.Services.Custom;
 using net_moto_bot.Domain.Entities;
+using net_moto_bot.Domain.Enums.Custom;
+using net_moto_bot.Domain.Enums.Public;
 using net_moto_bot.Domain.Exceptions.BadRequest;
 using net_moto_bot.Domain.Interfaces.Integration;
 using net_moto_bot.Domain.Interfaces.Public;
 using System.Text.Json;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace net_moto_bot.Application.Services.Public;
 
@@ -20,7 +23,8 @@ public class UserChatService(
     IJWTService _JWTService,
     IMapper _mapper,
     IUserRepository _userRepository,
-    IChatBotRepository _chatBotRepository) : IUserChatService
+    IChatBotRepository _chatBotRepository,
+    IMongoService _mongoService) : IUserChatService
 {
     public async Task<List<UserChatResponseDto>> GetAllCustomByTokenAsync(string token)
     {
@@ -33,12 +37,30 @@ public class UserChatService(
         );
     }
 
+    public async Task<List<Dictionary<string, object?>>> GetAllMessagesByChatCodeAsync(string chatCode)
+    {
+        UserChat userChat = _respository.FindByCode(chatCode)
+            ?? throw new BadRequestException(ExceptionEnum.UserNotFound);
+
+        var filter = Builders<BsonDocument>.Filter.Eq("_id", ObjectId.Parse(userChat.Uddi));
+        var result = await _mongoService.GetDataAsync(filter);
+
+        return result.Contains("messages") && result["messages"] is BsonArray bsonMessages
+            ? bsonMessages.Select(b => BsonSerializer.Deserialize<Dictionary<string, object?>>(b.AsBsonDocument)).ToList()
+            : [];
+    }
+
     public async Task<BotResponseDto> CreateUserQueryAsync(UserQueryRequestDto userQueryRequest, string token)
     {
         try
         {
-            Dictionary<string, object?> keyValuePairs = [];
-            keyValuePairs.Add("", token);
+            List<Dictionary<string, object?>> dictionaries = [];
+
+            Dictionary<string, object?> dictionaryRequest = [];
+            dictionaryRequest.Add("text", userQueryRequest.UserQuery);
+            dictionaryRequest.Add("date", DateTime.UtcNow);
+            dictionaryRequest.Add("type", (short)ChatTypeEnum.User);
+            dictionaries.Add(dictionaryRequest);
 
             long userId = _JWTService.GetUserId(token);
 
@@ -47,11 +69,30 @@ public class UserChatService(
 
             string response = await _chatBotRepository.SendUserQueryAsync(userQueryRequest.UserQuery);
 
+            string data = ExtractDataFromJson(response);
+
+            Dictionary<string, object?> dictionaryResponse = [];
+            dictionaryResponse.Add("text", data);
+            dictionaryResponse.Add("date", DateTime.UtcNow);
+            dictionaryResponse.Add("type", (short)ChatTypeEnum.Bot);
+            dictionaries.Add(dictionaryResponse);
+
+            (Dictionary<string, object?> responseUddi, bool exixts) = await _mongoService.SaveOrUpdateAsync(userChat.Uddi, dictionaries);
+
+            if (responseUddi.TryGetValue("_id", out object? value) && value != null)
+            {
+                string documentId = value.ToString()!;
+
+                userChat.Uddi = documentId;
+
+                if (!exixts) await _respository.UpdateAsync(userChat);
+            }
+
             return new()
             {
-                Text = ExtractDataFromJson(response),
+                Text = data,
                 Date = DateTime.UtcNow,
-                Type = 2
+                Type = (short)ChatTypeEnum.Bot
             };
 
         }
@@ -63,7 +104,7 @@ public class UserChatService(
             {
                 Text = ExtractDataFromJson(response),
                 Date = DateTime.UtcNow,
-                Type = 2
+                Type = (short)ChatTypeEnum.Bot
 
             };
         }
