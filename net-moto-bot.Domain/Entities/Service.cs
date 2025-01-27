@@ -16,6 +16,8 @@ public partial class Service
 
     public bool Active { get; set; }
 
+    public decimal Price { get; set; }
+
     public DateTime CreationDate { get; set; }
 
     public DateTime UpdateDate { get; set; }

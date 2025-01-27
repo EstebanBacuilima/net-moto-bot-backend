@@ -40,4 +40,10 @@ public class UserChatController(IUserChatService _service) : CommonController
         userChat.Code = code;
         return Ok(ResponseHandler.Ok(await _service.UpdateAsync(userChat)));
     }
+
+    [HttpGet, Route("list/messages-by-chat/{code}")]
+    public async  Task<IActionResult> GetAllMessagesByChatCodeAsync(string code)
+    {
+        return Ok(ResponseHandler.Ok(await _service.GetAllMessagesByChatCodeAsync(code)));
+    }
 }

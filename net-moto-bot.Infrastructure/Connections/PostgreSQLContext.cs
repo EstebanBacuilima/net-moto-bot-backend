@@ -386,6 +386,9 @@ public partial class PostgreSQLContext : DbContext
             entity.Property(e => e.UpdateDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("update_date");
+            entity.Property(e => e.Price)
+              .HasPrecision(19, 5)
+              .HasColumnName("price");
 
             entity.HasOne(d => d.Brand).WithMany(p => p.Products)
                 .HasForeignKey(d => d.BrandId)
@@ -492,6 +495,9 @@ public partial class PostgreSQLContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(150)
                 .HasColumnName("name");
+            entity.Property(e => e.Price)
+                .HasPrecision(19, 5)
+                .HasColumnName("price");
             entity.Property(e => e.UpdateDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("update_date");

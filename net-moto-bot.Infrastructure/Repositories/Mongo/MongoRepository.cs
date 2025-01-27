@@ -10,7 +10,12 @@ public class MongoRepository(MongoDBContext _context) : IMongoRepository
 {
     public async Task<bool> ExistsByCodeAndIdAsync(string collectionName, string _id) 
     {
-        FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq("_id", _id);
+        if (!ObjectId.TryParse(_id, out var objectId))
+        {
+            return false;
+        }
+
+        FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq("_id", objectId);
 
         long count = await _context.GetCollection(collectionName).CountDocumentsAsync(filter);
         return count > 0;
