@@ -11,6 +11,7 @@ namespace net_moto_bot.Application.Services.Public;
 
 public class UserService(
     IUserRepository _repository,
+    IPersonRepository _personRepository,
     IJWTService _jwtService) : IUserService
 {
     public Task<List<User>> GetAllAsync()
@@ -28,6 +29,30 @@ public class UserService(
         return _repository.FindByIdAsync(id);
     }
 
+    public async Task<TokenResponseDto> ResgisterAsync(User user, bool managment = false)
+    {
+        if (await _repository.FindByEmailAsync(user.Email.Trim()) != null) throw new BadCredentialException(ExceptionEnum.UsernameAlreadyExist);
+        // Validate user and person data.
+        user.Validate();
+        if (user.Person != null)
+        {
+
+        }
+        // Encrypt password.
+        string salt = BCrypt.BCrypt.GenSalt(12);
+        if (user.Password != null) user.Password = BCrypt.BCrypt.HashPassword(user.Password, salt);
+        // Save user 
+        user = await _repository.AddAsync(user);
+        // Return token.
+        return new()
+        {
+            Token = _jwtService.GenerateToken(user, 3600),
+            DisplayName = user.DisplayName,
+            PhotoUrl = user.PhotoUrl
+        };
+    }
+
+
     public async Task<TokenResponseDto> SignInAsync(LoginRequestDto loginRequestDto)
     {
         User? user = await _repository.FindByEmailAsync(loginRequestDto.Email.Trim()) ?? throw new BadCredentialException(ExceptionEnum.UserNotFound);
@@ -43,4 +68,6 @@ public class UserService(
             PhotoUrl = user.PhotoUrl
         };
     }
+
+
 }

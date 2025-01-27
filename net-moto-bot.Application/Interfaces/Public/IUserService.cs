@@ -13,4 +13,6 @@ public interface IUserService
     public Task<User?> GetByIdAsync(long id);
 
     public Task<TokenResponseDto> SignInAsync(LoginRequestDto loginRequestDto);
+
+    public Task<TokenResponseDto> ResgisterAsync(User user, bool managment = false);
 }

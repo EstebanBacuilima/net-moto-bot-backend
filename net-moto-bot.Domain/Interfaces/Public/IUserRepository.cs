@@ -9,4 +9,6 @@ public interface IUserRepository
     public Task<User?> FindByIdAsync(long id);
     public Task<List<User>> FindAllAsync();
     public Task<bool> ExistsByIdAsync(long id);
+    public Task<User> AddAsync(User user);
+    public Task<User> UpdateAsync(User user);
 }
