@@ -72,7 +72,8 @@ public class UserService(
             Token = _jwtService.GenerateToken(user, 3600),
             UserCode = user.Code,
             DisplayName = user.DisplayName,
-            PhotoUrl = user.PhotoUrl
+            PhotoUrl = user.PhotoUrl,
+            IsManagement = user.IsManagement
         };
     }
 
@@ -89,7 +90,8 @@ public class UserService(
         {
             Token = _jwtService.GenerateToken(user, 3600),
             DisplayName = user.DisplayName,
-            PhotoUrl = user.PhotoUrl
+            PhotoUrl = user.PhotoUrl,
+            IsManagement = user.IsManagement
         };
     }
 
