@@ -100,11 +100,11 @@ public class UserChatService(
         }
         catch
         {
-            string response = await _chatBotRepository.SendUserQueryAsync(userQueryRequest.UserQuery);
+            //string response = await _chatBotRepository.SendUserQueryAsync(userQueryRequest.UserQuery);
 
             return new()
             {
-                Text = ExtractDataFromJson(response),
+                Text = "Lo sentimos, no pudimos procesar su solicitud en este momento, inténtelo nuevamente más tarde.",
                 Date = DateTime.UtcNow,
                 Type = (short)ChatTypeEnum.Bot
 
