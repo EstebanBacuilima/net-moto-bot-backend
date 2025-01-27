@@ -10,6 +10,8 @@ using net_moto_bot.Domain.Exceptions.BadRequest;
 using net_moto_bot.Domain.Interfaces.Integration;
 using net_moto_bot.Domain.Interfaces.Public;
 using System.Text.Json;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace net_moto_bot.Application.Services.Public;
 
@@ -31,10 +33,13 @@ public class UserChatService(
         );
     }
 
-    public async Task<string> CreateUserQueryAsync(UserQueryRequestDto userQueryRequest, string token)
+    public async Task<BotResponseDto> CreateUserQueryAsync(UserQueryRequestDto userQueryRequest, string token)
     {
         try
         {
+            Dictionary<string, object?> keyValuePairs = [];
+            keyValuePairs.Add("", token);
+
             long userId = _JWTService.GetUserId(token);
 
             UserChat userChat = _respository.FindByCodeAndUserId(userQueryRequest.ChatCode, userId)
@@ -42,15 +47,26 @@ public class UserChatService(
 
             string response = await _chatBotRepository.SendUserQueryAsync(userQueryRequest.UserQuery);
 
-            return ExtractDataFromJson(response);
+            return new()
+            {
+                Text = ExtractDataFromJson(response),
+                Date = DateTime.UtcNow,
+                Type = 2
+            };
 
         }
         catch
         {
             string response = await _chatBotRepository.SendUserQueryAsync(userQueryRequest.UserQuery);
 
-            return ExtractDataFromJson(response);
-        } 
+            return new()
+            {
+                Text = ExtractDataFromJson(response),
+                Date = DateTime.UtcNow,
+                Type = 2
+
+            };
+        }
     }
 
     private static string ExtractDataFromJson(string jsonResponse)

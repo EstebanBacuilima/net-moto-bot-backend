@@ -10,7 +10,7 @@ public interface IUserChatService
 
     public Task<UserChat> CreateAsync(UserChat userChat, string token);
 
-    public Task<string> CreateUserQueryAsync(UserQueryRequestDto userQueryRequest, string token);
+    public Task<BotResponseDto> CreateUserQueryAsync(UserQueryRequestDto userQueryRequest, string token);
 
     public Task<UserChat> UpdateAsync(UserChat userChat);
 
