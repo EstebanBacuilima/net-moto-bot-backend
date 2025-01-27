@@ -520,6 +520,7 @@ public partial class PostgreSQLContext : DbContext
                 .HasComment("Unique string code of the user 1 to 128 characters.")
                 .HasColumnName("code");
             entity.Property(e => e.Disabled).HasColumnName("disabled");
+            entity.Property(e => e.IsManagement).HasColumnName("is_management");
             entity.Property(e => e.DisplayName)
                 .HasMaxLength(255)
                 .HasColumnName("display_name");
