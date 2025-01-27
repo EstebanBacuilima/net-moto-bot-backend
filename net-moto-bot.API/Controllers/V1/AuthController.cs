@@ -15,4 +15,10 @@ public class AuthController(IUserService _service) : CommonController
     {
         return Ok(ResponseHandler.Ok(await _service.SignInAsync(loginRequestDto)));
     }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> ResgisterAsync([FromBody] RegisterRequest registerRequest)
+    {
+        return Ok(ResponseHandler.Ok(await _service.ResgisterAsync(registerRequest)));
+    }
 }

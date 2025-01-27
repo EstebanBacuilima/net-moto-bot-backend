@@ -14,5 +14,5 @@ public interface IUserService
 
     public Task<TokenResponseDto> SignInAsync(LoginRequestDto loginRequestDto);
 
-    public Task<TokenResponseDto> ResgisterAsync(User user, bool managment = false);
+    public Task<TokenResponseDto> ResgisterAsync(RegisterRequest request, bool managment = false);
 }

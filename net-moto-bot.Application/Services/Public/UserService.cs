@@ -29,18 +29,41 @@ public class UserService(
         return _repository.FindByIdAsync(id);
     }
 
-    public async Task<TokenResponseDto> ResgisterAsync(User user, bool managment = false)
+    public async Task<TokenResponseDto> ResgisterAsync(RegisterRequest request, bool managment = false)
     {
-        if (await _repository.FindByEmailAsync(user.Email.Trim()) != null) throw new BadCredentialException(ExceptionEnum.UsernameAlreadyExist);
+        if (await _repository.FindByEmailAsync(request.Email.Trim()) != null) throw new BadCredentialException(ExceptionEnum.EmailAlreadyExists);
         // Validate user and person data.
-        user.Validate();
-        if (user.Person != null)
+        if (string.IsNullOrEmpty(request.IdCard.Trim())) throw new BadCredentialException(ExceptionEnum.IdCardRequired);
+        if (await _personRepository.ExistIdCardAsync(request.IdCard)) throw new BadCredentialException(ExceptionEnum.IdCardAlreadyExists);
+        if (string.IsNullOrEmpty(request.FirstName.Trim())) throw new BadCredentialException(ExceptionEnum.FirstNameRequired);
+        if (string.IsNullOrEmpty(request.LastName.Trim())) throw new BadCredentialException(ExceptionEnum.LastNameRequired);
+        if (string.IsNullOrEmpty(request.Email.Trim())) throw new BadCredentialException(ExceptionEnum.EmailRequired);
+        if (string.IsNullOrEmpty(request.Password.Trim()) || request.Password.Length < 4) throw new BadCredentialException(ExceptionEnum.WeakPassword);
+        // Create person.
+        var person = new Person
         {
+            IdCard = request.IdCard,
+            FirstName = request.FirstName,
+            LastName = request.LastName,
+            Email = request.Email,
+        };
 
-        }
+        // Create user.
+        User user = new()
+        {
+            DisplayName = $"{request.FirstName} {request.LastName}",
+            Email = request.Email,
+            Password = request.Password,
+            PhotoUrl = request.PhotoUrl,
+            PhoneNumber = request.PhoneNumber,
+            Disabled = false,
+            IsManagement = managment,
+            Person = person,
+        };
+
         // Encrypt password.
         string salt = BCrypt.BCrypt.GenSalt(12);
-        if (user.Password != null) user.Password = BCrypt.BCrypt.HashPassword(user.Password, salt);
+        if (request.Password != null) request.Password = BCrypt.BCrypt.HashPassword(request.Password, salt);
         // Save user 
         user = await _repository.AddAsync(user);
         // Return token.

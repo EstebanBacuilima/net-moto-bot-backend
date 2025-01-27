@@ -12,6 +12,10 @@ public class CustomException(ExceptionEnum exceptionEnum) : Exception
         {
             return _exceptionEnum switch
             {
+                ExceptionEnum.IdCardRequired => "id-card-required",
+                ExceptionEnum.FirstNameRequired => "first-name-required",
+                ExceptionEnum.LastNameRequired => "last-name-required",
+                ExceptionEnum.EmailRequired => "email-required",
                 ExceptionEnum.InvalidExtensionType => "invalid-extension-type",
                 ExceptionEnum.AccountExistsWithDifferentCredential => "account-exists-with-different-credential",
                 ExceptionEnum.AlreadyExistsCompanyWithThatIdCard => "already-exists-company-with-that-id-card",

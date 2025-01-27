@@ -2,6 +2,25 @@
 
 public enum ExceptionEnum : short
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    IdCardRequired,
+    /// <summary>
+    ///
+    /// </summary>
+    FirstNameRequired,
+    /// <summary>
+    /// 
+    /// </summary>
+    LastNameRequired,
+    /// <summary>
+    /// 
+    /// </summary>
+    EmailRequired,
+    /// <summary>
+    /// 
+    /// </summary>
     InvalidExtensionType,
     /// <summary>
     /// Thrown if there already exists an account with the email address asserted by the credential.
