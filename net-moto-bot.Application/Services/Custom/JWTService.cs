@@ -45,6 +45,20 @@ public class JWTService(IConfiguration configuration) : IJWTService
         return GetClaims(token).FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.NameIdentifier))?.Value ?? "";
     }
 
+    public bool ValidateToken(string token)
+    {
+
+        try
+        {
+            _ = long.TryParse(GetClaims(token).FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.Sid))?.Value, out long userId);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     public long GetUserId(string token)
     {
 
@@ -53,7 +67,7 @@ public class JWTService(IConfiguration configuration) : IJWTService
             _ = long.TryParse(GetClaims(token).FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.Sid))?.Value, out long userId);
             return userId;
         }
-        catch 
+        catch
         {
             throw new BadRequestException(Domain.Enums.Custom.ExceptionEnum.ExpiredToken);
         }
