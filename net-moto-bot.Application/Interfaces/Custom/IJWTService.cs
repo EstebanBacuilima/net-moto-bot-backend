@@ -9,4 +9,6 @@ public interface IJWTService
     public string GetUserCode(string token);
 
     public long GetUserId(string token);
+
+    public bool ValidateToken(string token);
 }

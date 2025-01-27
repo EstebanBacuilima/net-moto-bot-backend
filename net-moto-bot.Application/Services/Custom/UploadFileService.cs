@@ -93,6 +93,49 @@ public class UploadFileService(
         return uploadedFiles;
     }
 
+    public async Task<string> UploadImageFileAsync(IFormFile file)
+    {
+        string profileImagePath = _environment.WebRootPath + "/public/" + "motobot" + "/images/";
+        string fileExtension = Path.GetExtension(file.FileName);
+
+        if (!fileExtension.Equals(".png") && !fileExtension.Equals(".jpg") && !fileExtension.Equals(".jpeg")) throw new InvalidFieldException(ExceptionEnum.InvalidExtensionType);
+
+        string filename = GenerateCode(20) + Path.GetExtension(file.FileName);
+        CreateDirectory(profileImagePath);
+        using FileStream fileStream = File.Create(profileImagePath + filename);
+        await file.CopyToAsync(fileStream);
+        await fileStream.FlushAsync();
+        string imageUrl = _host + "/public/images/profile/" + filename;
+
+        return imageUrl;
+    }
+
+    public async Task<List<string>> UploadFilesAsync(List<IFormFile> files)
+    {
+        string profileImagePath = _environment.WebRootPath + "/public/" + "motobot" + "/images/";
+        CreateDirectory(profileImagePath);
+
+        List<string> uploadedFiles = [];
+
+        foreach (IFormFile file in files)
+        {
+            string fileExtension = Path.GetExtension(file.FileName);
+            string filename = GenerateCode(20) + Path.GetExtension(file.FileName);
+
+            if (!fileExtension.Equals(".png") && !fileExtension.Equals(".jpg") && !fileExtension.Equals(".jpeg")) throw new InvalidFieldException(ExceptionEnum.InvalidExtensionType);
+
+            using FileStream fileStream = System.IO.File.Create(profileImagePath + filename);
+            await file.CopyToAsync(fileStream);
+            await fileStream.FlushAsync();
+
+            string imageUrl = _host + "/public/" + "motobot" + "/images/" + filename;
+
+            uploadedFiles.Add(imageUrl);
+        }
+
+        return uploadedFiles;
+    }
+
     public int DeleteAllFilesAsync(List<string> filesPath)
     {
         foreach (string url in filesPath)
