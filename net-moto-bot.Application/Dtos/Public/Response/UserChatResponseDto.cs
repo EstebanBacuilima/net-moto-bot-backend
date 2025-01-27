@@ -1,4 +1,4 @@
-﻿namespace net_moto_bot.Application.Dtos.Public.Request;
+﻿namespace net_moto_bot.Application.Dtos.Public.Response;
 
 public class UserChatResponseDto
 {

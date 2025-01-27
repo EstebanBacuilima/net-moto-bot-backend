@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Driver;
 using net_moto_bot.API.Extensions;
+using net_moto_bot.Infrastructure.Connections.Mongo;
 using net_moto_bot.Infrastructure.Connectoins;
 using System.Text;
 
@@ -13,6 +16,18 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add HttpClient
+builder.Services.AddHttpClient();
+
+// Configure Mongo Database
+builder.Services.Configure<MongoDBSetting>(builder.Configuration.GetSection("MongoDBConnection"));
+builder.Services.AddSingleton<IMongoClient>(serviceProvider =>
+{
+    MongoDBSetting settings = serviceProvider.GetRequiredService<IOptions<MongoDBSetting>>().Value;
+    return new MongoClient(settings.ConnectionString);
+});
+builder.Services.AddSingleton<MongoDBContext>();
 
 // Add the PostgreSQL context.
 builder.Services.AddDbContext<PostgreSQLContext>(options =>

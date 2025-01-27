@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using net_moto_bot.Application.Interfaces.Custom;
 using net_moto_bot.Domain.Entities;
+using net_moto_bot.Domain.Exceptions.BadRequest;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -46,8 +47,16 @@ public class JWTService(IConfiguration configuration) : IJWTService
 
     public long GetUserId(string token)
     {
-        _ = long.TryParse(GetClaims(token).FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.Sid))?.Value, out long userId);
-        return userId;
+
+        try
+        {
+            _ = long.TryParse(GetClaims(token).FirstOrDefault(claim => claim.Type.Equals(ClaimTypes.Sid))?.Value, out long userId);
+            return userId;
+        }
+        catch 
+        {
+            throw new BadRequestException(Domain.Enums.Custom.ExceptionEnum.ExpiredToken);
+        }
     }
 
     #region This not part of interface

@@ -8,4 +8,5 @@ public interface IUserRepository
     public Task<User?> FindByCodeAsync(string code);
     public Task<User?> FindByIdAsync(long id);
     public Task<List<User>> FindAllAsync();
+    public Task<bool> ExistsByIdAsync(long id);
 }
