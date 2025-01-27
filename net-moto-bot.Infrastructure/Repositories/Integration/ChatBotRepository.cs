@@ -14,7 +14,7 @@ public class ChatBotRepository(
         dict.Add("additionalProp1", new { });
 
         string content = JsonSerializer.Serialize(dict);
-        _httpClient.BaseAddress = new Uri("http://localhost:8000");
+        _httpClient.BaseAddress = new Uri("https://11aa-45-164-64-131.ngrok-free.app");
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, $"/api/v1/user-query")
         {
             Content = new StringContent(content, new System.Net.Http.Headers.MediaTypeHeaderValue("application/json")),
