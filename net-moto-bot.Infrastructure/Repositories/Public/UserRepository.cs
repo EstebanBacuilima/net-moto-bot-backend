@@ -33,4 +33,9 @@ public class UserRepository (PostgreSQLContext _context) : IUserRepository
     {
         return _context.Users.AsNoTracking().ToListAsync();
     }
+
+    public Task<bool> ExistsByIdAsync(long id) 
+    {
+        return _context.Users.AsNoTracking().AnyAsync(u => u.Id == id) ;
+    }
 }

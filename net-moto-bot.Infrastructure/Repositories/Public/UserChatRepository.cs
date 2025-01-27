@@ -21,4 +21,45 @@ public class UserChatRepository(PostgreSQLContext _context) : IUserChatRepositor
                 ImageUrl = uc.ImageUrl,
             }).ToListAsync();
     }
+
+    public async Task<UserChat> SaveAsync(UserChat userChat)
+    {
+        await _context.UserChats.AddAsync(userChat);
+
+        await _context.SaveChangesAsync();
+
+        return userChat;
+    }
+
+    public async Task<UserChat> UpdateAsync(UserChat userChat)
+    {
+        _context.UserChats.Update(userChat);
+
+        await _context.SaveChangesAsync();
+
+        return userChat;
+    }
+
+    public UserChat? FindByUserId(long userId)
+    {
+        return _context.UserChats.AsNoTracking()
+            .Where(uc => uc.UserId == userId).FirstOrDefault();
+    }
+
+    public UserChat? FindById(int id)
+    {
+        return _context.UserChats.AsNoTracking()
+            .Where(uc => uc.Id == id).FirstOrDefault();
+    }
+
+    public UserChat? FindByCode(string code)
+    {
+        return _context.UserChats.AsNoTracking()
+          .Where(uc => uc.Code.Equals(code)).FirstOrDefault();
+    }
+    public UserChat? FindByCodeAndUserId(string code, long userId)
+    {
+        return _context.UserChats.AsNoTracking()
+          .Where(uc => uc.Code.Equals(code) && uc.UserId == userId).FirstOrDefault();
+    }
 }

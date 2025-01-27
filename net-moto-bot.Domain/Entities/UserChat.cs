@@ -7,15 +7,15 @@ public partial class UserChat
 
     public long UserId { get; set; }
 
-    public string Code { get; set; } = null!;
+    public string Code { get; set; } = string.Empty;
 
-    public string Uddi { get; set; } = null!;
+    public string Uddi { get; set; } = string.Empty;
 
     public DateTime CreationDate { get; set; }
 
     public DateTime UpdateDate { get; set; }
 
-    public string ChatName { get; set; } = null!;
+    public string ChatName { get; set; } = string.Empty;
 
     public string? Icon { get; set; }
 
