@@ -31,14 +31,14 @@ public class UserService(
 
     public async Task<TokenResponseDto> ResgisterAsync(RegisterRequest request, bool managment = false)
     {
-        if (await _repository.FindByEmailAsync(request.Email.Trim()) != null) throw new BadCredentialException(ExceptionEnum.EmailAlreadyExists);
+        if (await _repository.FindByEmailAsync(request.Email) != null) throw new BadCredentialException(ExceptionEnum.EmailAlreadyExists);
         // Validate user and person data.
-        if (string.IsNullOrEmpty(request.IdCard.Trim())) throw new BadCredentialException(ExceptionEnum.IdCardRequired);
+        if (string.IsNullOrWhiteSpace(request.IdCard)) throw new BadCredentialException(ExceptionEnum.IdCardRequired);
         if (await _personRepository.ExistIdCardAsync(request.IdCard)) throw new BadCredentialException(ExceptionEnum.IdCardAlreadyExists);
-        if (string.IsNullOrEmpty(request.FirstName.Trim())) throw new BadCredentialException(ExceptionEnum.FirstNameRequired);
-        if (string.IsNullOrEmpty(request.LastName.Trim())) throw new BadCredentialException(ExceptionEnum.LastNameRequired);
-        if (string.IsNullOrEmpty(request.Email.Trim())) throw new BadCredentialException(ExceptionEnum.EmailRequired);
-        if (string.IsNullOrEmpty(request.Password.Trim()) || request.Password.Length < 4) throw new BadCredentialException(ExceptionEnum.WeakPassword);
+        if (string.IsNullOrWhiteSpace(request.FirstName)) throw new BadCredentialException(ExceptionEnum.FirstNameRequired);
+        if (string.IsNullOrWhiteSpace(request.LastName)) throw new BadCredentialException(ExceptionEnum.LastNameRequired);
+        if (string.IsNullOrWhiteSpace(request.Email)) throw new BadCredentialException(ExceptionEnum.EmailRequired);
+        if (string.IsNullOrWhiteSpace(request.Password) || request.Password.Length < 4) throw new BadCredentialException(ExceptionEnum.WeakPassword);
         // Create person.
         var person = new Person
         {
