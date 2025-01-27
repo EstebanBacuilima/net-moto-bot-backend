@@ -32,6 +32,12 @@ public class ProductController(IProductService _service) : CommonController
         return Ok(ResponseHandler.Ok(await _service.GetAllAsync()));
     }
 
+    [HttpGet, Route("list-all")]
+    public async Task<IActionResult> GetAllItemsAsync()
+    {
+        return Ok(ResponseHandler.Ok(await _service.GetAllItemsAsync()));
+    }
+
     [HttpGet, Route("list-by-category")]
     public IActionResult GetAllByCategory([FromQuery] int id)
     {

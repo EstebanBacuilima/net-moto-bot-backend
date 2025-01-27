@@ -32,6 +32,15 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
             .ToListAsync();
     }
 
+    public Task<List<Product>> FindAllItemsAsync()
+    {
+        return _context.Products
+            .AsNoTracking()
+            .Include(p => p.ProductFiles)
+            .ToListAsync();
+
+    }
+
     public Task<Product?> FindByIdAsync(int id)
     {
         return _context.Products
