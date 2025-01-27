@@ -47,7 +47,6 @@ public class UserService(
             LastName = request.LastName,
             Email = request.Email,
         };
-
         // Create user.
         User user = new()
         {
@@ -64,12 +63,14 @@ public class UserService(
         // Encrypt password.
         string salt = BCrypt.BCrypt.GenSalt(12);
         if (request.Password != null) request.Password = BCrypt.BCrypt.HashPassword(request.Password, salt);
-        // Save user 
+        // Save user
+        user.Password = request.Password;
         user = await _repository.AddAsync(user);
         // Return token.
         return new()
         {
             Token = _jwtService.GenerateToken(user, 3600),
+            UserCode = user.Code,
             DisplayName = user.DisplayName,
             PhotoUrl = user.PhotoUrl
         };
