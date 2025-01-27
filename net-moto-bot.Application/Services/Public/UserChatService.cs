@@ -42,6 +42,8 @@ public class UserChatService(
         UserChat userChat = _respository.FindByCode(chatCode)
             ?? throw new BadRequestException(ExceptionEnum.UserNotFound);
 
+        if (userChat.Uddi.Length != 20) return [];
+
         var filter = Builders<BsonDocument>.Filter.Eq("_id", ObjectId.Parse(userChat.Uddi));
         var result = await _mongoService.GetDataAsync(filter);
 
