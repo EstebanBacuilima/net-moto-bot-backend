@@ -10,31 +10,31 @@ namespace net_moto_bot.Infrastructure.Repositories.Public;
 
 public class ProductFileRepository(PostgreSQLContext _context) : IProductFileRepository
 {
-    public async Task<List<ProductFile>> SaveRangeAsync(List<ProductFile> productFiles)
+    public async Task<List<ProductImage>> SaveRangeAsync(List<ProductImage> productFiles)
     {
-        await _context.ProductFiles.AddRangeAsync(productFiles);
+        await _context.ProductImages.AddRangeAsync(productFiles);
         await _context.SaveChangesAsync();
         return productFiles;
     }
 
-    public async Task<ProductFile> SaveAsync(ProductFile productFile)
+    public async Task<ProductImage> SaveAsync(ProductImage productFile)
     {
-        await _context.ProductFiles.AddAsync(productFile);
+        await _context.ProductImages.AddAsync(productFile);
         await _context.SaveChangesAsync();
         return productFile;
     }
 
-    public Task<List<ProductFile>> FindAllByProductIdAsync(int productId)
+    public Task<List<ProductImage>> FindAllByProductIdAsync(int productId)
     {
-        return _context.ProductFiles
+        return _context.ProductImages
             .AsNoTracking()
             .Where(pf => pf.ProductId == productId)
             .ToListAsync();
     }
 
-    public Task<List<ProductFile>> FindAllByProductCodeAsync(string productCode)
+    public Task<List<ProductImage>> FindAllByProductCodeAsync(string productCode)
     {
-        return _context.ProductFiles
+        return _context.ProductImages
             .AsNoTracking()
             .Where(pf => pf.Product != null && pf.Product.Code.Equals(productCode))
             .ToListAsync();

@@ -5,9 +5,9 @@ namespace net_moto_bot.Application.Interfaces.Custom;
 
 public interface IUploadFileService
 {
-    public Task<ProductFile> UploadImageFile(IFormFile file);   
+    public Task<ProductImage> UploadImageFile(IFormFile file);   
 
-    public Task<List<ProductFile>> UploadFiles(List<IFormFile> files);
+    public Task<List<ProductImage>> UploadFiles(List<IFormFile> files);
 
     public Task<string> UploadImageFileAsync(IFormFile file);
 

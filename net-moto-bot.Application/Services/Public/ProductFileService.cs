@@ -11,11 +11,11 @@ public class ProductFileService(
     IProductFileRepository _repository,
     IUploadFileService _uploadFileService) : IProductFileService
 {
-    public async Task<List<ProductFile>> BulkCreateAsync(List<IFormFile> uploadedFiles, int productId)
+    public async Task<List<ProductImage>> BulkCreateAsync(List<IFormFile> uploadedFiles, int productId)
     {
-        List<ProductFile> files = await _uploadFileService.UploadFiles(uploadedFiles);
+        List<ProductImage> files = await _uploadFileService.UploadFiles(uploadedFiles);
 
-        foreach (ProductFile productFile in files)
+        foreach (ProductImage productFile in files)
         {
             productFile.ProductId = productId;
 
@@ -23,20 +23,20 @@ public class ProductFileService(
         return await _repository.SaveRangeAsync(files);
     }
 
-    public async Task<ProductFile> CreateAsync(IFormFile file, int productId)
+    public async Task<ProductImage> CreateAsync(IFormFile file, int productId)
     {
-        ProductFile fileCreated = await _uploadFileService.UploadImageFile(file);
+        ProductImage fileCreated = await _uploadFileService.UploadImageFile(file);
 
         fileCreated.ProductId = productId;
         return await _repository.SaveAsync(fileCreated);
     }
 
-    public Task<List<ProductFile>> GetAllByProductIdAsync(int productId)
+    public Task<List<ProductImage>> GetAllByProductIdAsync(int productId)
     {
         return _repository.FindAllByProductIdAsync(productId);
     }
 
-    public Task<List<ProductFile>> GetAllByProductCodeAsync(string productCode)
+    public Task<List<ProductImage>> GetAllByProductCodeAsync(string productCode)
     {
         return _repository.FindAllByProductCodeAsync(productCode);
     }

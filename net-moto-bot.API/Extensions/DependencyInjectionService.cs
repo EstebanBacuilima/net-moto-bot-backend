@@ -42,6 +42,7 @@ public static class DependencyInjectionService
         services.AddScoped<IUserChatService, UserChatService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IBrandService, BrandService>();
+        services.AddScoped<IMotorcycleIssueService, MotorcycleIssueService>();
         services.AddScoped<IMongoService, MongoService>();
         
 

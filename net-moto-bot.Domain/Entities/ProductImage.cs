@@ -2,7 +2,7 @@
 
 namespace net_moto_bot.Domain.Entities;
 
-public partial class ProductFile
+public partial class ProductImage
 {
     public int Id { get; set; }
 

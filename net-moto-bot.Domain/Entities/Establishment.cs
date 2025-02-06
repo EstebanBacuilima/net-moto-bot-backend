@@ -23,6 +23,10 @@ public partial class Establishment
 
     public DateTime UpdateDate { get; set; }
 
+    public string? MainStreet { get; set; }
+
+    public string? SecondStreet { get; set; }
+
     [JsonIgnore]
     public virtual ICollection<Appointment> Appointments { get; set; } = [];
 }
