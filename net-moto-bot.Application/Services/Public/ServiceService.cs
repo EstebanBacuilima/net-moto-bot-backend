@@ -23,7 +23,7 @@ public class ServiceService(
 
         finded.Name = service.Name;
         finded.Description = service.Description;
-        finded.Icon = service.Icon;
+        finded.Image = service.Image;
         finded.Price = service.Price;
         finded.Active = service.Active;
         return await _repository.UpdateAsync(finded);

@@ -25,10 +25,16 @@ public partial class Product
 
     public DateTime UpdateDate { get; set; }
 
+    public string? Model { get; set; }
+
+    public string? Year { get; set; }
+
+    public string? Color { get; set; }
+
     public virtual Brand? Brand { get; set; }
 
     public virtual Category? Category { get; set; }
 
-    public virtual ICollection<ProductFile> ProductFiles { get; set; } = [];
+    public virtual ICollection<ProductImage> ProductImages { get; set; } = [];
 
 }

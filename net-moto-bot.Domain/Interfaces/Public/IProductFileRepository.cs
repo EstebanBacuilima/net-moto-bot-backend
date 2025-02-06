@@ -4,13 +4,13 @@ namespace net_moto_bot.Domain.Interfaces.Public;
 
 public interface IProductFileRepository
 {
-    public Task<List<ProductFile>> SaveRangeAsync(List<ProductFile> productFiles);
+    public Task<List<ProductImage>> SaveRangeAsync(List<ProductImage> productFiles);
 
-    public Task<ProductFile> SaveAsync(ProductFile productFile);
+    public Task<ProductImage> SaveAsync(ProductImage productFile);
 
-    public Task<List<ProductFile>> FindAllByProductIdAsync(int productId);
+    public Task<List<ProductImage>> FindAllByProductIdAsync(int productId);
 
-    public Task<List<ProductFile>> FindAllByProductCodeAsync(string productCode);
+    public Task<List<ProductImage>> FindAllByProductCodeAsync(string productCode);
 
     public void ChangeState(string code, bool state);
 

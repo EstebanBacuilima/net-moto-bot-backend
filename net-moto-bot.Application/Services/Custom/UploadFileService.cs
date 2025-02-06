@@ -42,7 +42,7 @@ public class UploadFileService(
         if (!Directory.Exists(path)) Directory.CreateDirectory(path);
     }
 
-    public async Task<ProductFile> UploadImageFile(IFormFile file)
+    public async Task<ProductImage> UploadImageFile(IFormFile file)
     {
         string profileImagePath = _environment.WebRootPath + "/public/" + "motobot" + "/images/";
         string fileExtension = Path.GetExtension(file.FileName);
@@ -63,12 +63,12 @@ public class UploadFileService(
         };
     }
 
-    public async Task<List<ProductFile>> UploadFiles(List<IFormFile> files)
+    public async Task<List<ProductImage>> UploadFiles(List<IFormFile> files)
     {
         string profileImagePath = _environment.WebRootPath + "/public/" + "motobot" + "/images/";
         CreateDirectory(profileImagePath);
 
-        List<ProductFile> uploadedFiles = [];
+        List<ProductImage> uploadedFiles = [];
 
         foreach (IFormFile file in files)
         {
@@ -83,7 +83,7 @@ public class UploadFileService(
 
             string imageUrl = _host + "/public/" + "motobot" + "/images/" + filename;
 
-            uploadedFiles.Add(new ProductFile
+            uploadedFiles.Add(new ProductImage
             {
                 Url = imageUrl,
                 Active = true,

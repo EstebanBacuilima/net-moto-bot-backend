@@ -24,9 +24,9 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
     {
         return _context.Products
             .AsNoTracking()
-            .Include(p => p.ProductFiles)
+            .Include(p => p.ProductImages)
             .Where(p => p.Active &&
-                        p.ProductFiles.Any(pf => pf.Active) &&
+                        p.ProductImages.Any(pf => pf.Active) &&
                         p.Category != null &&
                         p.Category.Active)
             .ToListAsync();
@@ -36,7 +36,7 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
     {
         return _context.Products
             .AsNoTracking()
-            .Include(p => p.ProductFiles)
+            .Include(p => p.ProductImages)
             .ToListAsync();
 
     }
@@ -72,10 +72,10 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
     public List<Product> FindAllByCategoryId(int categoryId)
     {
         return [.. _context.Products.AsNoTracking()
-            .Include(p => p.ProductFiles)
+            .Include(p => p.ProductImages)
             .Where(p => p.CategoryId == categoryId &&
                         p.Active &&
-                        p.ProductFiles.Any(pf => pf.Active) &&
+                        p.ProductImages.Any(pf => pf.Active) &&
                         p.Category != null &&
                         p.Category.Active )
             .Select(p => new Product(){
@@ -89,7 +89,7 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
                 Active = p.Active,
                 CreationDate = p.CreationDate,
                 UpdateDate = p.UpdateDate,
-                ProductFiles = p.ProductFiles.Where(pf => pf.Active).ToList()
+                ProductImages = p.ProductImages.Where(pf => pf.Active).ToList()
             })];
     }
 }

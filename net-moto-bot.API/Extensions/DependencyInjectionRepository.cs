@@ -1,5 +1,4 @@
-﻿using net_moto_bot.Application.Interfaces.Public;
-using net_moto_bot.Domain.Interfaces.Integration;
+﻿using net_moto_bot.Domain.Interfaces.Integration;
 using net_moto_bot.Domain.Interfaces.Mongo;
 using net_moto_bot.Domain.Interfaces.Public;
 using net_moto_bot.Infrastructure.Repositories.Integration;
@@ -27,6 +26,7 @@ public static class DependencyInjectionServiceRepository
         services.AddScoped<IProductFileRepository, ProductFileRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserChatRepository, UserChatRepository>();
+        services.AddScoped<IMotorcycleIssueRepository, MotorcycleIssueRepository>();
         services.AddScoped<IChatBotRepository, ChatBotRepository>();
 
         // Mongo

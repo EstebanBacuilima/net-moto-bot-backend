@@ -16,6 +16,7 @@ public partial class PostgreSQLContext : DbContext
         : base(options)
     {
     }
+
     public virtual DbSet<Appointment> Appointments { get; set; }
 
     public virtual DbSet<Brand> Brands { get; set; }
@@ -28,11 +29,13 @@ public partial class PostgreSQLContext : DbContext
 
     public virtual DbSet<Establishment> Establishments { get; set; }
 
+    public virtual DbSet<MotorcycleIssue> MotorcycleIssues { get; set; }
+
     public virtual DbSet<Person> People { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
 
-    public virtual DbSet<ProductFile> ProductFiles { get; set; }
+    public virtual DbSet<ProductImage> ProductImages { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
@@ -309,12 +312,37 @@ public partial class PostgreSQLContext : DbContext
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.Latitude).HasColumnName("latitude");
             entity.Property(e => e.Longitude).HasColumnName("longitude");
+            entity.Property(e => e.MainStreet)
+                .HasMaxLength(255)
+                .HasColumnName("main_street");
             entity.Property(e => e.Name)
                 .HasMaxLength(150)
                 .HasColumnName("name");
+            entity.Property(e => e.SecondStreet)
+                .HasMaxLength(255)
+                .HasColumnName("second_street");
             entity.Property(e => e.UpdateDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("update_date");
+        });
+
+        modelBuilder.Entity<MotorcycleIssue>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("motorcycle_issues_pkey");
+
+            entity.ToTable("motorcycle_issues");
+
+            entity.Property(e => e.Id)
+                .HasIdentityOptions(null, null, null, null, true, null)
+                .HasColumnName("id");
+            entity.Property(e => e.Active).HasColumnName("active");
+            entity.Property(e => e.Code)
+                .HasMaxLength(20)
+                .HasColumnName("code");
+            entity.Property(e => e.IssueDescription).HasColumnName("issue_description");
+            entity.Property(e => e.PossibleCauses).HasColumnName("possible_causes");
+            entity.Property(e => e.SeverityLevel).HasColumnName("severity_level");
+            entity.Property(e => e.SolutionSuggestion).HasColumnName("solution_suggestion");
         });
 
         modelBuilder.Entity<Person>(entity =>
@@ -373,22 +401,31 @@ public partial class PostgreSQLContext : DbContext
             entity.Property(e => e.Code)
                 .HasMaxLength(20)
                 .HasColumnName("code");
+            entity.Property(e => e.Color)
+                .HasMaxLength(100)
+                .HasColumnName("color");
             entity.Property(e => e.CreationDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("creation_date");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Model)
+                .HasMaxLength(255)
+                .HasColumnName("model");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .HasColumnName("name");
+            entity.Property(e => e.Price)
+                .HasPrecision(19, 5)
+                .HasColumnName("price");
             entity.Property(e => e.Sku)
                 .HasMaxLength(100)
                 .HasColumnName("sku");
             entity.Property(e => e.UpdateDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("update_date");
-            entity.Property(e => e.Price)
-              .HasPrecision(19, 5)
-              .HasColumnName("price");
+            entity.Property(e => e.Year)
+                .HasMaxLength(255)
+                .HasColumnName("year");
 
             entity.HasOne(d => d.Brand).WithMany(p => p.Products)
                 .HasForeignKey(d => d.BrandId)
@@ -401,11 +438,11 @@ public partial class PostgreSQLContext : DbContext
                 .HasConstraintName("fk_products__category_id");
         });
 
-        modelBuilder.Entity<ProductFile>(entity =>
+        modelBuilder.Entity<ProductImage>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("product_files_pkey");
 
-            entity.ToTable("product_files");
+            entity.ToTable("product_images");
 
             entity.HasIndex(e => e.Code, "product_files_code_key").IsUnique();
 
@@ -432,7 +469,7 @@ public partial class PostgreSQLContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("url");
 
-            entity.HasOne(d => d.Product).WithMany(p => p.ProductFiles)
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductImages)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_product_files__product_id");
@@ -492,6 +529,9 @@ public partial class PostgreSQLContext : DbContext
             entity.Property(e => e.Description)
                 .HasMaxLength(255)
                 .HasColumnName("description");
+            entity.Property(e => e.Image)
+                .HasMaxLength(255)
+                .HasColumnName("image");
             entity.Property(e => e.Name)
                 .HasMaxLength(150)
                 .HasColumnName("name");
@@ -501,9 +541,6 @@ public partial class PostgreSQLContext : DbContext
             entity.Property(e => e.UpdateDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("update_date");
-            entity.Property(e => e.Icon)
-                .HasMaxLength(50)
-                .HasColumnName("icon");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -526,13 +563,13 @@ public partial class PostgreSQLContext : DbContext
                 .HasComment("Unique string code of the user 1 to 128 characters.")
                 .HasColumnName("code");
             entity.Property(e => e.Disabled).HasColumnName("disabled");
-            entity.Property(e => e.IsManagement).HasColumnName("is_management");
             entity.Property(e => e.DisplayName)
                 .HasMaxLength(255)
                 .HasColumnName("display_name");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .HasColumnName("email");
+            entity.Property(e => e.IsManagement).HasColumnName("is_management");
             entity.Property(e => e.Password)
                 .HasMaxLength(128)
                 .HasColumnName("password");

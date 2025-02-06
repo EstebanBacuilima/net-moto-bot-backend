@@ -42,6 +42,8 @@ public class MongoService(
             BsonDocument updatedDocument = BsonDocument.Parse(json);
 
             await _repository.UpdateAsync(collectionName, filter, updatedDocument);
+
+            return (updatedDocument.ToDictionary(), existDocument);
         }
         else
         {
@@ -51,9 +53,10 @@ public class MongoService(
             BsonDocument newDocument = BsonDocument.Parse(json);
 
             await _repository.SaveAsync(collectionName, newDocument);
+            return (newDocument.ToDictionary(), existDocument) ;
         }
 
-        return (dictionary, existDocument);
+        //return (dictionary, existDocument);
     }
 
     public Task<BsonDocument> GetDataAsync(FilterDefinition<BsonDocument> filter) 
