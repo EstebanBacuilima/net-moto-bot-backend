@@ -22,9 +22,13 @@ public class ServiceRepository(
         return service;
     }
 
-    public Task<List<Service>> FindAllAsync()
+    public Task<List<Service>> FindAllAsync(string value)
     {
-        return _context.Services.AsNoTracking().ToListAsync();
+        return _context.Services.AsNoTracking()
+            .Where(s => string.IsNullOrWhiteSpace(value) || 
+                        EF.Functions.Like(s.Name.ToUpper(), $"%{value.ToUpper()}%") || 
+                        EF.Functions.Like(s.Description.ToUpper(), $"%{value.ToUpper()}%"))
+            .ToListAsync();
     }
 
     public Task<Service?> FindByIdAsync(int id)
