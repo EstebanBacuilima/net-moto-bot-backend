@@ -7,7 +7,7 @@ public interface IServiceRepository
 {
     public Task<Service> SaveAsync(Service service);
     public Task<Service> UpdateAsync(Service service);
-    public Task<List<Service>> FindAllAsync();
+    public Task<List<Service>> FindAllAsync(string value);
     public Task<Service?> FindByIdAsync(int id);
     public Task ChangeStateAsync(int id, bool active);
     public Task<Service?> FindByCodeAsync(string code);

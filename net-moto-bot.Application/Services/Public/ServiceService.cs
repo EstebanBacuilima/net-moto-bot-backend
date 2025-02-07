@@ -29,9 +29,9 @@ public class ServiceService(
         return await _repository.UpdateAsync(finded);
     }
 
-    public Task<List<Service>> GetAllAsync()
+    public Task<List<Service>> GetAllAsync(string value)
     {
-        return _repository.FindAllAsync();
+        return _repository.FindAllAsync(value);
     }
 
     public Task<Service?> GetByIdAsync(int id)
