@@ -50,6 +50,7 @@ public class BrandRepository(
     {
         var finded = await _context.Brands.FirstAsync(b => b.Code.Equals(brand.Code));
         finded.Name = brand.Name;
+        finded.Logo = brand.Logo;
         finded.Description = brand.Description;
         await _context.SaveChangesAsync();
         return finded;
