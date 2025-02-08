@@ -12,4 +12,5 @@ public interface IServiceRepository
     public Task ChangeStateAsync(int id, bool active);
     public Task<Service?> FindByCodeAsync(string code);
     public Task ChangeStateAsync(string code, bool active);
+    public Task<List<Service>> FindAllActiveAsync(string value);
 }

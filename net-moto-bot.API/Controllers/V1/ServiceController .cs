@@ -34,6 +34,12 @@ public class ServiceController(
         return Ok(ResponseHandler.Ok(await _service.GetAllAsync(value ?? string.Empty)));
     }
 
+    [HttpGet, Route("list-active")]
+    public async Task<IActionResult> GetAllActiveAsync([FromQuery] string? value)
+    {
+        return Ok(ResponseHandler.Ok(await _service.GetAllActiveAsync(value ?? string.Empty)));
+    }
+
     [HttpGet, Route("find/by-id/{id}")]
     public async Task<IActionResult> GetByIdAsync(int id)
     {
