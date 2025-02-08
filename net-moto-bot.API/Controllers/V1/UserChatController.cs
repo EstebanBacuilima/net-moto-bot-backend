@@ -22,6 +22,12 @@ public class UserChatController(IUserChatService _service) : CommonController
         return Ok(ResponseHandler.Ok(await _service.CreateUserQueryAsync(userQueryRequest, Token)));
     }
 
+    [HttpPost, Route("query")]
+    public async Task<IActionResult> CreateQueyAsync([FromBody] UserQueryRequestDto userQueryRequest)
+    {
+        return Ok(ResponseHandler.Ok(await _service.GetQueryAsync(userQueryRequest)));
+    }
+
     [HttpGet, Route("list/by-user")]
     public async Task<IActionResult> GetAllCustomByUserIdAsync()
     {
@@ -42,7 +48,7 @@ public class UserChatController(IUserChatService _service) : CommonController
     }
 
     [HttpGet, Route("list/messages-by-chat/{code}")]
-    public async  Task<IActionResult> GetAllMessagesByChatCodeAsync(string code)
+    public async Task<IActionResult> GetAllMessagesByChatCodeAsync(string code)
     {
         return Ok(ResponseHandler.Ok(await _service.GetAllMessagesByChatCodeAsync(code)));
     }

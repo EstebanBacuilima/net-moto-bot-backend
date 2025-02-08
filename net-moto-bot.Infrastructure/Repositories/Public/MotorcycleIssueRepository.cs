@@ -23,9 +23,14 @@ public class MotorcycleIssueRepository(PostgreSQLContext _context) : IMotorcycle
         return motorcycleIssue;
     }
 
-    public Task<List<MotorcycleIssue>> FindAllAsync()
+    public Task<List<MotorcycleIssue>> FindAllAsync(string value)
     {
-        return _context.MotorcycleIssues.AsNoTracking().ToListAsync();
+        return _context.MotorcycleIssues.AsNoTracking()
+            .Where(mi => string.IsNullOrWhiteSpace(value) || 
+                         EF.Functions.Like(mi.IssueDescription, $"%{value}%") ||
+                         EF.Functions.Like(mi.PossibleCauses.ToUpper(), $"%{value.ToUpper()}%") ||
+                         EF.Functions.Like(mi.SolutionSuggestion.ToUpper(), $"%{value.ToUpper()}%"))
+            .ToListAsync();
     }
 
     public Task<MotorcycleIssue?> FindByIdAsync(int id)

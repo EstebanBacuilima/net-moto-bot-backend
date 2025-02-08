@@ -26,9 +26,9 @@ public class MotorcycleIssueService(IMotorcycleIssueRepository _repository) : IM
         return await _repository.UpdateAsync(finded);
     }
 
-    public Task<List<MotorcycleIssue>> GetAllAsync()
+    public Task<List<MotorcycleIssue>> GetAllAsync(string value)
     {
-        return _repository.FindAllAsync();
+        return _repository.FindAllAsync(value);
     }
 
     public Task<MotorcycleIssue?> GetByIdAsync(int id)

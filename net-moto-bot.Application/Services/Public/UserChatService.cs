@@ -52,6 +52,20 @@ public class UserChatService(
             : [];
     }
 
+    public async Task<BotResponseDto> GetQueryAsync(UserQueryRequestDto userQueryRequest) 
+    {
+        string response = await _chatBotRepository.SendUserQueryAsync(userQueryRequest.UserQuery);
+
+        string data = ExtractDataFromJson(response);
+
+        return new()
+        {
+            Text = data,
+            Date = DateTime.UtcNow,
+            Type = (short)ChatTypeEnum.Bot
+        };
+    }
+
     public async Task<BotResponseDto> CreateUserQueryAsync(UserQueryRequestDto userQueryRequest, string token)
     {
         try
