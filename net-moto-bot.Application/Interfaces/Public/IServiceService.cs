@@ -10,4 +10,5 @@ public interface IServiceService
     public Task<List<Service>> GetAllAsync(string value);
     public Task<Service?> GetByIdAsync(int id);
     public Task<Service> ChangeStateAsync(string code, bool active);
+    public Task<List<Service>> GetAllActiveAsync(string value);
 }

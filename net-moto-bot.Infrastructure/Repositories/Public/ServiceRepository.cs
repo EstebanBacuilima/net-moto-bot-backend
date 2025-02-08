@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using net_moto_bot.Domain.Entities;
 using net_moto_bot.Domain.Interfaces.Public;
-using net_moto_bot.Infrastructure.Connectoins;
+using net_moto_bot.Infrastructure.Connections;
 
 namespace net_moto_bot.Infrastructure.Repositories.Public;
 
@@ -27,6 +27,15 @@ public class ServiceRepository(
         return _context.Services.AsNoTracking()
             .Where(s => string.IsNullOrWhiteSpace(value) || 
                         EF.Functions.Like(s.Name.ToUpper(), $"%{value.ToUpper()}%") || 
+                        EF.Functions.Like(s.Description.ToUpper(), $"%{value.ToUpper()}%"))
+            .ToListAsync();
+    }
+
+    public Task<List<Service>> FindAllActiveAsync(string value)
+    {
+        return _context.Services.AsNoTracking()
+            .Where(s => s.Active && string.IsNullOrWhiteSpace(value) ||
+                        EF.Functions.Like(s.Name.ToUpper(), $"%{value.ToUpper()}%") ||
                         EF.Functions.Like(s.Description.ToUpper(), $"%{value.ToUpper()}%"))
             .ToListAsync();
     }

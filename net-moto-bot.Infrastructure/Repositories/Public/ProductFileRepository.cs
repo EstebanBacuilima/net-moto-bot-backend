@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using net_moto_bot.Domain.Entities;
 using net_moto_bot.Domain.Exceptions.BadRequest;
 using net_moto_bot.Domain.Interfaces.Public;
-using net_moto_bot.Infrastructure.Connectoins;
+using net_moto_bot.Infrastructure.Connections;
 using System;
 
 namespace net_moto_bot.Infrastructure.Repositories.Public;

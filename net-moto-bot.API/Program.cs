@@ -4,8 +4,8 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using net_moto_bot.API.Extensions;
+using net_moto_bot.Infrastructure.Connections;
 using net_moto_bot.Infrastructure.Connections.Mongo;
-using net_moto_bot.Infrastructure.Connectoins;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);

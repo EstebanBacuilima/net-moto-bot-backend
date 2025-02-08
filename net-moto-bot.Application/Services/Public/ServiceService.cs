@@ -50,4 +50,9 @@ public class ServiceService(
 
         return service;
     }
+
+    public Task<List<Service>> GetAllActiveAsync(string value) 
+    {
+        return _repository.FindAllActiveAsync(value);
+    }
 }

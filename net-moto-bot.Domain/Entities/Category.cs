@@ -19,6 +19,8 @@ public partial class Category
 
     public DateTime UpdateDate { get; set; }
 
+    public string? Logo { get; set; }
+
     [JsonIgnore]
     public virtual ICollection<Product> Products { get; set; } = [];
 }
