@@ -178,6 +178,7 @@ public partial class PostgreSQLContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("creation_date");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.Logo).HasColumnName("logo");
             entity.Property(e => e.Name)
                 .HasMaxLength(150)
                 .HasColumnName("name");

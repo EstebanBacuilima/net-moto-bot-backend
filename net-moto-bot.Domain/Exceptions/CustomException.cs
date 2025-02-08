@@ -30,6 +30,7 @@ public class CustomException(ExceptionEnum exceptionEnum) : Exception
                 ExceptionEnum.IncorrectCurrentPassword => "incorrect-current-password",
                 ExceptionEnum.InvalidCompanyName => "invalid-company-name",
                 ExceptionEnum.InvalidCredential => "invalid-credential",
+                ExceptionEnum.NameIsAlreadyExists => "name-is-already-exists",
                 ExceptionEnum.InvalidEmail => "invalid-email",
                 ExceptionEnum.InvalidEstablishmentName => "invalid-establishment-name",
                 ExceptionEnum.InvalidFirstName => "invalid-first-name",

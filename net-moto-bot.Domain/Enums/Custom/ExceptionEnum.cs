@@ -6,6 +6,7 @@ public enum ExceptionEnum : short
     /// 
     /// </summary>
     IdCardRequired,
+    NameIsAlreadyExists,
     /// <summary>
     ///
     /// </summary>
