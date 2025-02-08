@@ -20,6 +20,8 @@ public interface IUserChatService
 
     public Task<List<Dictionary<string, object?>>> GetAllMessagesByChatCodeAsync(string chatCode);
 
+    public Task<BotResponseDto> GetQueryAsync(UserQueryRequestDto userQueryRequest);
+
 
     //public Task<Dictionary<string, object?>> GetAllMessagesByChatCodeAsync(string chatCode);
 }

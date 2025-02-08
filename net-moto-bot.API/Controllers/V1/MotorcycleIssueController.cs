@@ -28,9 +28,9 @@ public class MotorcycleIssueController(
     }
 
     [HttpGet, Route("list")]
-    public async Task<IActionResult> GetAllAsync()
+    public async Task<IActionResult> GetAllAsync([FromQuery] string? value)
     {
-        return Ok(ResponseHandler.Ok(await _service.GetAllAsync()));
+        return Ok(ResponseHandler.Ok(await _service.GetAllAsync(value ?? string.Empty)));
     }
 
     [HttpGet, Route("find/by-id/{id}")]
