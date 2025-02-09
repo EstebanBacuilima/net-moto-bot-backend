@@ -57,4 +57,11 @@ public class AttributeRepository(PostgreSQLContext _context) : IAttributeReposit
 
         await _context.Database.ExecuteSqlRawAsync(query, active, code);
     }
+
+    public Attribute? FindByName(string name)
+    {
+        return _context.Attributes.AsNoTracking()
+            .Where(a => a.Name.ToUpper().Equals(name.ToUpper()))
+            .FirstOrDefault();
+    }
 }

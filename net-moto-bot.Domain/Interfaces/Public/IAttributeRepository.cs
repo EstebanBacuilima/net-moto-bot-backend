@@ -12,4 +12,5 @@ public interface IAttributeRepository
     public Task ChangeStateAsync(int id, bool active);
     public Task<Attribute?> FindByCodeAsync(string code);
     public Task ChangeStateAsync(string code, bool active);
+    public Attribute? FindByName(string name);
 }

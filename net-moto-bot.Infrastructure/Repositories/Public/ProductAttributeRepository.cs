@@ -26,7 +26,9 @@ public class ProductAttributeRepository(
     public Task<List<ProductAttribute>> FindAllByProductIdAsync(int productId)
     {
         return _context.ProductAttributes.AsNoTracking()
-            .Where(pa => pa.ProductId == productId).ToListAsync();
+            .Where(pa => pa.ProductId == productId)
+            .Include(pa => pa.Attribute)
+            .ToListAsync();
     }
 
     public Task<ProductAttribute?> FindByProductIdAndAttibuteIdAsync(int productId, short attributeId)

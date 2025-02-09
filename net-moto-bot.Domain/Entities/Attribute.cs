@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace net_moto_bot.Domain.Entities;
 
 public partial class Attribute
@@ -12,5 +14,7 @@ public partial class Attribute
     public string? Description { get; set; }
 
     public bool Active { get; set; }
+
+    [JsonIgnore]
     public virtual ICollection<ProductAttribute> ProductAttributes { get; set; } = [];
 }
