@@ -20,7 +20,6 @@ public class CategoryRepository(
     {
         return _context.Categories
              .AsNoTracking()
-             .Where(c => c.Active)
              .ToListAsync();
     }
 

@@ -28,6 +28,8 @@ public static class DependencyInjectionServiceRepository
         services.AddScoped<IUserChatRepository, UserChatRepository>();
         services.AddScoped<IMotorcycleIssueRepository, MotorcycleIssueRepository>();
         services.AddScoped<IChatBotRepository, ChatBotRepository>();
+        services.AddScoped<IAttributeRepository , AttributeRepository>();
+        services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
 
         // Mongo
         services.AddScoped<IMongoRepository, MongoRepository>();
