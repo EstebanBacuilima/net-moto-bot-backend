@@ -8,9 +8,10 @@ namespace net_moto_bot.Application.Services.Public;
 
 public class ProductService(IProductRepository _repository) : IProductService
 {
-    public Task<Product> CreateAsync(Product product)
+    public async Task<Product> CreateAsync(Product product)
     {
-        return _repository.SaveAsync(product);
+        if (await _repository.ExistsByNameAsync(product.Name)) throw new BadRequestException(ExceptionEnum.NameIsAlreadyExists);
+        return await _repository.SaveAsync(product);
     }
 
     public async Task<Product> UpdateAsync(Product product)

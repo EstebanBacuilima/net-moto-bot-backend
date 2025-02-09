@@ -69,6 +69,11 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
         await _context.Database.ExecuteSqlRawAsync(query, active, code);
     }
 
+    public Task<bool> ExistsByNameAsync(string name)
+    {
+        return _context.Products.AnyAsync(p => p.Name.ToUpper().Trim().Equals(name.ToUpper().Trim()));
+    }
+
     public List<Product> FindAllByCategoryId(int categoryId)
     {
         return [.. _context.Products.AsNoTracking()
