@@ -20,7 +20,6 @@ public class BrandRepository(
     {
         return _context.Brands
             .AsNoTracking()
-            .Where(b => b.Active)
             .ToListAsync();
     }
 

@@ -44,7 +44,8 @@ public static class DependencyInjectionService
         services.AddScoped<IBrandService, BrandService>();
         services.AddScoped<IMotorcycleIssueService, MotorcycleIssueService>();
         services.AddScoped<IMongoService, MongoService>();
-        
+        services.AddScoped<IAttributeService, AttributeService>();
+        services.AddScoped<IProductAttributeService, ProductAttributeService>();
 
         return services;
     }
