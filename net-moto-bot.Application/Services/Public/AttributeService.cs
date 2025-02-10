@@ -55,6 +55,7 @@ public class AttributeService(
 
     private void Validate(Attribute attribute)
     {
+        if (string.IsNullOrWhiteSpace(attribute.Name)) throw new BadRequestException(ExceptionEnum.InvalidName);
 
         Attribute? finded = _repository.FindByName(attribute.Name);
 

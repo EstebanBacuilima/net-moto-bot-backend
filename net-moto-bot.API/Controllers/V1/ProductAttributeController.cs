@@ -30,9 +30,9 @@ public class ProductAttributeController(
     }
 
     [HttpGet, Route("list-by-product")]
-    public async Task<IActionResult> GetAllAsync([FromQuery] int id)
+    public async Task<IActionResult> GetAllAsync([FromQuery] int id, [FromQuery] string? value)
     {
-        return Ok(ResponseHandler.Ok(await _service.GetAllByProductIdAsync(id)));
+        return Ok(ResponseHandler.Ok(await _service.GetAllByProductIdAsync(id, value ?? string.Empty)));
     }
 
     [HttpGet, Route("find/by-product-and-attribute")]

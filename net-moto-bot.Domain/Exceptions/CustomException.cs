@@ -46,6 +46,7 @@ public class CustomException(ExceptionEnum exceptionEnum) : Exception
                 ExceptionEnum.InvalidUrl => "invalid-url",
                 ExceptionEnum.InvalidVerificationCode => "invalid-verification-code",
                 ExceptionEnum.InvalidVerificationId => "invalid-verification-id",
+                ExceptionEnum.InvalidName => "invalid-name",
                 ExceptionEnum.LockedAccount => "locked-account",
                 ExceptionEnum.MainEstablishmentAlreadyExists => "main-establishment-already-exists",
                 ExceptionEnum.MainEstablishmentIsRequired => "main-establishment-is-required",
@@ -66,6 +67,7 @@ public class CustomException(ExceptionEnum exceptionEnum) : Exception
                 ExceptionEnum.UserNotFound => "user-not-found",
                 ExceptionEnum.WeakPassword => "weak-password",
                 ExceptionEnum.WrongPassword => "wrong-password",
+                ExceptionEnum.AttributeAlreadyExists => "attribute-already-exists",
                 _ => _exceptionEnum.ToString(),
             };
         }

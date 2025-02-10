@@ -135,6 +135,8 @@ public enum ExceptionEnum : short
     /// Thrown if verification ID of the credential is not valid.
     /// </summary>
     InvalidVerificationId,
+    InvalidName,
+    AttributeAlreadyExists,
     /// <summary>
     /// Thrown if locked account.
     /// </summary>

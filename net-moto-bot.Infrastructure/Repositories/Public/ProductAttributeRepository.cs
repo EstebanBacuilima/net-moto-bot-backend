@@ -23,10 +23,13 @@ public class ProductAttributeRepository(
         return productAttribute;
     }
 
-    public Task<List<ProductAttribute>> FindAllByProductIdAsync(int productId)
+    public Task<List<ProductAttribute>> FindAllByProductIdAsync(int productId, string value)
     {
         return _context.ProductAttributes.AsNoTracking()
-            .Where(pa => pa.ProductId == productId)
+            .Where(pa => pa.ProductId == productId && (string.IsNullOrWhiteSpace(value) ||
+                         EF.Functions.Like(pa.Value.ToUpper(), $"%{value.ToUpper()}%") ||
+                         EF.Functions.Like(pa.Attribute.Name.ToUpper(), $"%{value.ToUpper()}%")) 
+                         )
             .Include(pa => pa.Attribute)
             .ToListAsync();
     }
