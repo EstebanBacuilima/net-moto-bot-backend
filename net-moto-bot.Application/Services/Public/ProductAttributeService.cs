@@ -24,10 +24,6 @@ public class ProductAttributeService(
     {
         SetData(productAttribute);
 
-        bool exists = _repository.ExistsByProductAndAttribute(productAttribute.ProductId, productAttribute.AttributeId);
-
-        if (exists) throw new BadRequestException(ExceptionEnum.AttributeAlreadyExists);
-
         return _repository.UpdateAsync(productAttribute);
     }
 

@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace net_moto_bot.Domain.Entities;
 
 public partial class ProductAttribute
@@ -13,6 +15,7 @@ public partial class ProductAttribute
 
     public virtual Attribute? Attribute { get; set; }
 
+    [JsonIgnore]
     public virtual Product? Product { get; set; } 
 }
 

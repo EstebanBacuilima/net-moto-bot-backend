@@ -15,4 +15,5 @@ public interface IProductRepository
     public Task ChangeStateAsync(string code, bool active);
     public Task<bool> ExistsByNameAsync(string name);
     public List<Product> FindAllByCategoryId(int categoryId);
+    public Product? FindByCode(string code);
 }

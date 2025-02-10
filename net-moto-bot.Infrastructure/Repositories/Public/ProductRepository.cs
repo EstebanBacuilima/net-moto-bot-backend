@@ -97,4 +97,16 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
                 ProductImages = p.ProductImages.Where(pf => pf.Active).ToList()
             })];
     }
+
+    public Product? FindByCode(string code) 
+    {
+        return _context.Products.AsNoTracking()
+            .Include(p => p.Category)
+            .Include(p => p.Brand)
+            .Include(p => p.ProductImages.Where(pi => pi.Active))
+            .Include(p => p.ProductAttributes.Where(pa => pa.Active))
+                .ThenInclude(pa => pa.Attribute)
+            .Where(p => p.Code.Equals(code))
+            .FirstOrDefault();
+    }
 }

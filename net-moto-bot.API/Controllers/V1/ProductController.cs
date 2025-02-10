@@ -50,6 +50,12 @@ public class ProductController(IProductService _service) : CommonController
         return Ok(ResponseHandler.Ok(await _service.GetByIdAsync(id)));
     }
 
+    [HttpGet, Route("find/by-code/{code}")]
+    public IActionResult GetByCodeAsync(string code)
+    {
+        return Ok(ResponseHandler.Ok(_service.GetByCode(code)));
+    }
+
     [HttpPut, Route("update/{code}")]
     public async Task<IActionResult> UpdateAsync(
         [FromBody] Product product, string code)
