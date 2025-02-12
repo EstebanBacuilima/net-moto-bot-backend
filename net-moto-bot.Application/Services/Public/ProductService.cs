@@ -60,4 +60,9 @@ public class ProductService(IProductRepository _repository) : IProductService
     {
         return _repository.FindAllItemsAsync();
     }
+
+    public Product? GetByCode(string code) 
+    {
+        return _repository.FindByCode(code);
+    }
 }
