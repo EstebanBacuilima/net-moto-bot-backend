@@ -4,7 +4,8 @@ using System.Text.Json;
 namespace net_moto_bot.Infrastructure.Repositories.Integration;
 
 public class ChatBotRepository(
-    HttpClient _httpClient) : IChatBotRepository
+    HttpClient _httpClient
+) : IChatBotRepository
 {
     public async Task<string> SendUserQueryAsync(string userQuery)
     {
@@ -15,7 +16,7 @@ public class ChatBotRepository(
 
         string content = JsonSerializer.Serialize(dict);
         using HttpClient _httpClient = new();
-        _httpClient.BaseAddress = new Uri("http://localhost:8000");
+        _httpClient.BaseAddress = new Uri("https://b55a-179-49-41-84.ngrok-free.app");
         using HttpRequestMessage requestMessage = new(HttpMethod.Post, $"/api/v1/user-query")
         {
             Content = new StringContent(content, new System.Net.Http.Headers.MediaTypeHeaderValue("application/json")),
