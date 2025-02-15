@@ -17,3 +17,5 @@ RUN apt-get update && apt-get install -y tzdata && \
 COPY --from=build /app/publish .
 
 EXPOSE 80
+
+ENTRYPOINT ["dotnet", "net-moto-bot.API.dll"]
