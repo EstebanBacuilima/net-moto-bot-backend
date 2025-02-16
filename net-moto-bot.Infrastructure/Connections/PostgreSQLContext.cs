@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using net_moto_bot.Domain.Entities;
-using Attribute =  net_moto_bot.Domain.Entities.Attribute;
+using Attribute = net_moto_bot.Domain.Entities.Attribute;
 using System.Text;
 
 namespace net_moto_bot.Infrastructure.Connections;
@@ -252,8 +252,6 @@ public partial class PostgreSQLContext : DbContext
 
             entity.HasIndex(e => e.PersonId, "customers_person_id_idx");
 
-            entity.HasIndex(e => e.UserId, "customers_user_id_idx");
-
             entity.Property(e => e.Id)
                 .HasIdentityOptions(null, null, null, null, true, null)
                 .HasColumnName("id");
@@ -285,8 +283,6 @@ public partial class PostgreSQLContext : DbContext
 
             entity.HasIndex(e => e.PersonId, "employees_person_id_idx");
 
-            entity.HasIndex(e => e.UserId, "employees_user_id_idx");
-
             entity.Property(e => e.Id)
                 .HasIdentityOptions(null, null, null, null, true, null)
                 .HasColumnName("id");
@@ -301,17 +297,11 @@ public partial class PostgreSQLContext : DbContext
             entity.Property(e => e.UpdateDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("update_date");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Person).WithMany(p => p.Employees)
                 .HasForeignKey(d => d.PersonId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_employees__person_id");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Employees)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_employees__user_id");
         });
 
         modelBuilder.Entity<Establishment>(entity =>

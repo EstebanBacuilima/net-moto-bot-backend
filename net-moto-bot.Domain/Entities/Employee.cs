@@ -8,8 +8,6 @@ public partial class Employee
 
     public int PersonId { get; set; }
 
-    public long UserId { get; set; }
-
     public bool Active { get; set; }
 
     public string Code { get; set; } = string.Empty;
@@ -22,6 +20,4 @@ public partial class Employee
     public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
 
     public virtual Person? Person { get; set; }
-
-    public virtual User? User { get; set; }
 }
