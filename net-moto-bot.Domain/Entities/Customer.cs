@@ -22,5 +22,4 @@ public partial class Customer
     public virtual ICollection<Appointment> Appointments { get; set; } = [];
 
     public virtual Person? Person { get; set; }
-    public virtual User? User { get; set; }
 }

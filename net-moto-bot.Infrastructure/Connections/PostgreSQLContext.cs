@@ -268,17 +268,11 @@ public partial class PostgreSQLContext : DbContext
             entity.Property(e => e.UpdateDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("update_date");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Person).WithMany(p => p.Customers)
                 .HasForeignKey(d => d.PersonId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_customers__person_id");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Customers)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_customers__user_id");
         });
 
         modelBuilder.Entity<Employee>(entity =>
