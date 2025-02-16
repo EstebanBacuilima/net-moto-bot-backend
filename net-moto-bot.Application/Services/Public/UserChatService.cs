@@ -56,11 +56,11 @@ public class UserChatService(
     {
         string response = await _chatBotRepository.SendUserQueryAsync(userQueryRequest.UserQuery);
 
-        string data = ExtractDataFromJson(response);
+        //string data = ExtractDataFromJson(response);
 
         return new()
         {
-            Text = data,
+            Text = response,
             Date = DateTime.UtcNow,
             Type = (short)ChatTypeEnum.Bot
         };

@@ -16,13 +16,15 @@ public class ChatBotRepository(
 
         string content = JsonSerializer.Serialize(dict);
         using HttpClient _httpClient = new();
-        _httpClient.BaseAddress = new Uri("https://b55a-179-49-41-84.ngrok-free.app");
-        using HttpRequestMessage requestMessage = new(HttpMethod.Post, $"/api/v1/user-query")
+
+        _httpClient.BaseAddress = new Uri("http://134.122.114.162:8000");
+        using HttpRequestMessage requestMessage = new(HttpMethod.Post, $"/api/v1/user-query-html")
+
         {
             Content = new StringContent(content, new System.Net.Http.Headers.MediaTypeHeaderValue("application/json")),
         };
         using HttpResponseMessage responseMessage = await _httpClient.SendAsync(requestMessage);
-        var data = await responseMessage.Content.ReadAsStringAsync();
-        return await responseMessage.Content.ReadAsStringAsync();
+        string data = await responseMessage.Content.ReadAsStringAsync();
+        return data;
     }
 }
