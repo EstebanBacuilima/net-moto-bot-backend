@@ -8,8 +8,6 @@ public partial class Customer
 
     public int PersonId { get; set; }
 
-    public long UserId { get; set; }
-
     public string Code { get; set; } = string.Empty;
 
     public bool Active { get; set; }
