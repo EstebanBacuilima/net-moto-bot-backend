@@ -98,6 +98,30 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
             })];
     }
 
+    public List<Product> FindAllByCategoryCode(string categoryCode)
+    {
+        return [.. _context.Products.AsNoTracking()
+            .Include(p => p.ProductImages)
+            .Where(p => p.Category.Code.Equals(categoryCode) &&
+                        p.Active &&
+                        p.ProductImages.Any(pf => pf.Active) &&
+                        p.Category != null &&
+                        p.Category.Active )
+            .Select(p => new Product(){
+                Id = p.Id,
+                CategoryId = p.CategoryId,
+                BrandId = p.BrandId,
+                Code = p.Code,
+                Name = p.Name,
+                Sku = p.Sku,
+                Description = p.Description,
+                Active = p.Active,
+                CreationDate = p.CreationDate,
+                UpdateDate = p.UpdateDate,
+                ProductImages = p.ProductImages.Where(pf => pf.Active).ToList()
+            })];
+    }
+
     public Product? FindByCode(string code) 
     {
         return _context.Products.AsNoTracking()

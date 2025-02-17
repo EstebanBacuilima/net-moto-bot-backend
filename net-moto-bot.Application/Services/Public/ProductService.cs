@@ -56,6 +56,11 @@ public class ProductService(IProductRepository _repository) : IProductService
         return _repository.FindAllByCategoryId(categoryId);
     }
 
+    public List<Product> GetAllByCategoryCode(string categoryCode) 
+    {
+        return _repository.FindAllByCategoryCode(categoryCode);
+    }
+
     public Task<List<Product>> GetAllItemsAsync() 
     {
         return _repository.FindAllItemsAsync();
