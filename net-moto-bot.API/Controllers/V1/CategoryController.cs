@@ -36,7 +36,7 @@ public class CategoryController(
         return Ok(ResponseHandler.Ok(await _service.GetAllAsync()));
     }
 
-    [HttpGet, Route("find-by")]
+    [HttpGet, Route("find/by")]
     public async Task<IActionResult> GetByCode([FromQuery] string code)
     {
         return Ok(ResponseHandler.Ok(await _service.GetByCodeAsync(code)));
