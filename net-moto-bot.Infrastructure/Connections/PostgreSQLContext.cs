@@ -440,6 +440,9 @@ public partial class PostgreSQLContext : DbContext
             entity.Property(e => e.Price)
                 .HasPrecision(19, 5)
                 .HasColumnName("price");
+            entity.Property(e => e.Percentage)
+               .HasPrecision(10, 2)
+               .HasColumnName("percentage");
             entity.Property(e => e.Sku)
                 .HasMaxLength(100)
                 .HasColumnName("sku");

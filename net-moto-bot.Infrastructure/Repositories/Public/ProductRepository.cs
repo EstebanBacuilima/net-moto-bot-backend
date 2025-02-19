@@ -95,6 +95,7 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
                 UpdateDate = p.UpdateDate,
                 Price = p.Price,
                 Brand = p.Brand,
+                Percentage = p.Percentage,
                 ProductImages = p.ProductImages.Where(pf => pf.Active).ToList()
             })];
     }
@@ -120,6 +121,7 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
                 UpdateDate = p.UpdateDate,
                 Price = p.Price,
                 Brand = p.Brand,
+                Percentage = p.Percentage,
                 ProductImages = p.ProductImages.Where(pf => pf.Active).ToList()
             })];
     }

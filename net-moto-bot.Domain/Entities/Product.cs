@@ -21,6 +21,8 @@ public partial class Product
 
     public decimal Price { get; set; }
 
+    public decimal? Percentage { get; set; }
+
     public DateTime CreationDate { get; set; }
 
     public DateTime UpdateDate { get; set; }
