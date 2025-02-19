@@ -77,7 +77,6 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
     public List<Product> FindAllByCategoryId(int categoryId)
     {
         return [.. _context.Products.AsNoTracking()
-            .Include(p => p.ProductImages)
             .Where(p => p.CategoryId == categoryId &&
                         p.Active &&
                         p.ProductImages.Any(pf => pf.Active) &&
@@ -94,6 +93,8 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
                 Active = p.Active,
                 CreationDate = p.CreationDate,
                 UpdateDate = p.UpdateDate,
+                Price = p.Price,
+                Brand = p.Brand,
                 ProductImages = p.ProductImages.Where(pf => pf.Active).ToList()
             })];
     }
@@ -101,7 +102,6 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
     public List<Product> FindAllByCategoryCode(string categoryCode)
     {
         return [.. _context.Products.AsNoTracking()
-            .Include(p => p.ProductImages)
             .Where(p => p.Category.Code.Equals(categoryCode) &&
                         p.Active &&
                         p.ProductImages.Any(pf => pf.Active) &&
@@ -118,6 +118,8 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
                 Active = p.Active,
                 CreationDate = p.CreationDate,
                 UpdateDate = p.UpdateDate,
+                Price = p.Price,
+                Brand = p.Brand,
                 ProductImages = p.ProductImages.Where(pf => pf.Active).ToList()
             })];
     }
