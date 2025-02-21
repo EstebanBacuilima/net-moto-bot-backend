@@ -36,7 +36,7 @@ public class CategoryController(
         return Ok(ResponseHandler.Ok(await _service.GetAllAsync()));
     }
 
-    [HttpGet, Route("list/by-xistence-of-products")]
+    [HttpGet, Route("list/by-existence-of-products")]
     public async Task<IActionResult> GetAllContainingProductsAsync()
     {
         return Ok(ResponseHandler.Ok(await _service.GetAllContainingProductsAsync()));

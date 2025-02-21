@@ -22,7 +22,8 @@ public class MotorcycleIssueService(IMotorcycleIssueRepository _repository) : IM
         finded.PossibleCauses = motorcycleIssue.PossibleCauses;
         finded.SolutionSuggestion = motorcycleIssue.SolutionSuggestion;
         finded.SeverityLevel = motorcycleIssue.SeverityLevel;
-        finded.Active = motorcycleIssue.Active;
+        finded.Keyword = motorcycleIssue.Keyword;
+        //finded.Active = motorcycleIssue.Active;
         return await _repository.UpdateAsync(finded);
     }
 

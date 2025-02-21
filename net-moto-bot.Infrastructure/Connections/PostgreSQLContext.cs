@@ -372,6 +372,7 @@ public partial class PostgreSQLContext : DbContext
             entity.Property(e => e.PossibleCauses).HasColumnName("possible_causes");
             entity.Property(e => e.SeverityLevel).HasColumnName("severity_level");
             entity.Property(e => e.SolutionSuggestion).HasColumnName("solution_suggestion");
+            entity.Property(e => e.Keyword).HasColumnName("keyword");
         });
 
         modelBuilder.Entity<Person>(entity =>
