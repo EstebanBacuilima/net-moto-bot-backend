@@ -36,6 +36,12 @@ public class CategoryController(
         return Ok(ResponseHandler.Ok(await _service.GetAllAsync()));
     }
 
+    [HttpGet, Route("list/by-xistence-of-products")]
+    public async Task<IActionResult> GetAllContainingProductsAsync()
+    {
+        return Ok(ResponseHandler.Ok(await _service.GetAllContainingProductsAsync()));
+    }
+
     [HttpGet, Route("find/by")]
     public async Task<IActionResult> GetByCode([FromQuery] string code)
     {

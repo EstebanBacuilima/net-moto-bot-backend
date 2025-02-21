@@ -25,6 +25,7 @@ public class ProductService(IProductRepository _repository) : IProductService
         finded.Description = product.Description;
         finded.Sku = product.Sku;
         finded.Price = product.Price;
+        finded.Percentage = product.Percentage;
 
         return await _repository.UpdateAsync(finded);
     }
