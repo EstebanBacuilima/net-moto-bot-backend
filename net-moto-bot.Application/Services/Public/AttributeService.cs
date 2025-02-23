@@ -3,7 +3,6 @@ using Attribute = net_moto_bot.Domain.Entities.Attribute;
 using net_moto_bot.Domain.Interfaces.Public;
 using net_moto_bot.Domain.Enums.Custom;
 using net_moto_bot.Domain.Exceptions.BadRequest;
-using System.ComponentModel.DataAnnotations;
 
 namespace net_moto_bot.Application.Services.Public;
 

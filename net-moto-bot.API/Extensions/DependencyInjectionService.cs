@@ -46,6 +46,8 @@ public static class DependencyInjectionService
         services.AddScoped<IMongoService, MongoService>();
         services.AddScoped<IAttributeService, AttributeService>();
         services.AddScoped<IProductAttributeService, ProductAttributeService>();
+        services.AddScoped<ISectionService, SectionService>();
+        services.AddScoped<IProductSectionService, ProductSectionService>();
 
         return services;
     }

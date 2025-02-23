@@ -30,6 +30,8 @@ public static class DependencyInjectionServiceRepository
         services.AddScoped<IChatBotRepository, ChatBotRepository>();
         services.AddScoped<IAttributeRepository , AttributeRepository>();
         services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
+        services.AddScoped<ISectionRepository, SectionRepository>();
+        services.AddScoped<IProductSectionRepository, ProductSectionRepository>();
 
         // Mongo
         services.AddScoped<IMongoRepository, MongoRepository>();

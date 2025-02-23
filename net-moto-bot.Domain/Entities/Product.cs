@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace net_moto_bot.Domain.Entities;
 
 public partial class Product
@@ -35,4 +37,6 @@ public partial class Product
 
     public virtual ICollection<ProductImage> ProductImages { get; set; } = [];
 
+    [JsonIgnore]
+    public virtual ICollection<ProductSection> ProductSections { get; set; } = [];
 }
