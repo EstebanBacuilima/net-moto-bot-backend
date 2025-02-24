@@ -587,6 +587,8 @@ public partial class PostgreSQLContext : DbContext
 
             entity.ToTable("sections");
 
+            entity.Ignore(e => e.TotalProduct);//
+
             entity.HasIndex(e => e.Code, "sections_code_key").IsUnique();
 
             entity.Property(e => e.Id)

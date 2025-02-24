@@ -52,6 +52,16 @@ public class SectionRepository(PostgreSQLContext _context) : ISectionRepository
             .Where(s => string.IsNullOrWhiteSpace(value) ||
                         EF.Functions.Like(s.Name.ToUpper(), $"%{value.ToUpper()}%") ||
                         EF.Functions.Like(s.Description.ToUpper(), $"%{value.ToUpper()}%"))
+            .Select(s => new Section()
+            {
+                Id = s.Id,
+                Code = s.Code,
+                Name = s.Name,
+                Description = s.Description,
+                Active = s.Active,
+                EndDate = s.EndDate,
+                TotalProduct = s.ProductSections.Count()
+            })
             .ToListAsync();
     }
 
@@ -95,7 +105,7 @@ public class SectionRepository(PostgreSQLContext _context) : ISectionRepository
         return _context.Sections.Any(s => s.Id == id);
     }
 
-    public int ProductQuantityBySection(short sectionId) 
+    public int ProductQuantityBySection(short sectionId)
     {
         return _context.Sections.AsNoTracking()
             .Where(s => s.Id == sectionId)
