@@ -53,4 +53,10 @@ public class SectionController(
         section.Code = code;
         return Ok(ResponseHandler.Ok(await _service.UpdateAsync(section)));
     }
+
+    [HttpGet, Route("count/product-by-id/{id}")]
+    public IActionResult ProductQuantityBySection(short id)
+    {
+        return Ok(ResponseHandler.Ok(_service.ProductQuantityBySection(id)));
+    }
 }

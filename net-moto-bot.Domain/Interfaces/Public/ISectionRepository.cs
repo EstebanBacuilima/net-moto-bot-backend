@@ -15,4 +15,5 @@ public interface ISectionRepository
     public Task ChangeStateAsync(string code, bool active);
     public Section? FindByName(string name);
     public bool ExistsById(short id);
+    public int ProductQuantityBySection(short sectionId);
 }

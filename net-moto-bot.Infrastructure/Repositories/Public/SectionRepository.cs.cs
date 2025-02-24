@@ -94,4 +94,12 @@ public class SectionRepository(PostgreSQLContext _context) : ISectionRepository
     {
         return _context.Sections.Any(s => s.Id == id);
     }
+
+    public int ProductQuantityBySection(short sectionId) 
+    {
+        return _context.Sections.AsNoTracking()
+            .Where(s => s.Id == sectionId)
+            .Select(s => s.ProductSections.Count())
+            .FirstOrDefault();
+    }
 }

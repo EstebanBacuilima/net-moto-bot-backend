@@ -7,7 +7,7 @@ using net_moto_bot.Domain.Interfaces.Public;
 
 namespace net_moto_bot.Application.Services.Public;
 
-public class SectionService (
+public class SectionService(
     ISectionRepository _repository) : ISectionService
 {
     public Task<Section> CreateAsync(Section section)
@@ -52,6 +52,11 @@ public class SectionService (
         await _repository.ChangeStateAsync(code, active);
 
         return attribute;
+    }
+
+    public int ProductQuantityBySection(short sectionId)
+    {
+        return _repository.ProductQuantityBySection(sectionId);
     }
 
     public Task<List<Section>> GetAllIncludingProductsAsync()

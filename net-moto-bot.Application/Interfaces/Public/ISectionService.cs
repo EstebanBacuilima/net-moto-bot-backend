@@ -10,6 +10,6 @@ public interface ISectionService
     public Task<List<Section>> GetAllAsync(string value);
     public Task<Section?> GetByIdAsync(int id);
     public Task<Section> ChangeStateAsync(string code, bool active);
-
     public Task<List<Section>> GetAllIncludingProductsAsync();
+    public int ProductQuantityBySection(short sectionId);
 }
