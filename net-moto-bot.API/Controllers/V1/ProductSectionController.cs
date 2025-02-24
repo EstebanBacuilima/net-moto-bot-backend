@@ -19,9 +19,16 @@ public class ProductSectionController(
         return Ok(ResponseHandler.Ok(await _service.BulkCreateAsync(productIds, sectionId)));
     }
 
-    [HttpGet, Route("List")]
+    [HttpGet, Route("list")]
     public async Task<IActionResult> GetAllIncludingProductsAsync()
     {
         return Ok(ResponseHandler.Ok(await _service.GetAllIncludingProductsAsync()));
+    }
+
+    [HttpGet, Route("list/product-ids-by-section")]
+    public IActionResult GetAllProductIdsBySection(
+        [FromQuery(Name = "section_id")] short sectionId)
+    {
+        return Ok(ResponseHandler.Ok(_service.GetAllProductIdsBySection(sectionId)));
     }
 }

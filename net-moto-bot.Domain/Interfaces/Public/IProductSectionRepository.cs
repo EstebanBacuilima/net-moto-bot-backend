@@ -10,4 +10,7 @@ public interface IProductSectionRepository
     public Task<List<ProductSection>> SaveRangeAsync(List<ProductSection> productSections);
 
     public Task DeleteAllBySectionIdAsync(short sectionId);
+
+    public List<int> FindAllProductIdsBySection(short sectionId);
+
 }

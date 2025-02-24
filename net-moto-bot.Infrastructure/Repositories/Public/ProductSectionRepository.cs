@@ -14,7 +14,6 @@ public class ProductSectionRepository(
             .AsNoTracking()
             .Where(ps => ps.Active)
             .ToListAsync();
-
     }
 
     public async Task<List<ProductSection>> SaveRangeAsync(List<ProductSection> productSections)
@@ -29,5 +28,12 @@ public class ProductSectionRepository(
         await _context.ProductSections
             .Where(ps => ps.SectionId == sectionId)
             .ExecuteDeleteAsync();
+    }
+
+    public List<int> FindAllProductIdsBySection(short sectionId)
+    {
+        return [.. _context.ProductSections.AsNoTracking()
+            .Where(p => p.SectionId == sectionId)
+            .Select(s => s.ProductId)];
     }
 }

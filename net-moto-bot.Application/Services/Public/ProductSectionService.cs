@@ -28,6 +28,10 @@ public class ProductSectionService(
         return _repository.FindAllIncludingProductsAsync();
     }
 
+    public List<int> GetAllProductIdsBySection(short sectionId)
+    {
+        return _repository.FindAllProductIdsBySection(sectionId);
+    }
 
     public static void SetData(List<ProductSection> productSections)
     {

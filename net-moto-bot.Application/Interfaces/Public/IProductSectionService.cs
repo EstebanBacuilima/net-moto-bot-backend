@@ -7,4 +7,5 @@ public interface IProductSectionService
     public Task<List<ProductSection>> BulkCreateAsync(List<int> productIds, short sectionId);
 
     public Task<List<ProductSection>> GetAllIncludingProductsAsync();
+    public List<int> GetAllProductIdsBySection(short sectionId);
 }
