@@ -600,6 +600,7 @@ public partial class PostgreSQLContext : DbContext
                 .HasColumnName("code");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
+            entity.Property(e => e.Sequence).HasColumnName("sequence");
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .HasColumnName("name");

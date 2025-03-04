@@ -26,8 +26,10 @@ public class SectionRepository(PostgreSQLContext _context) : ISectionRepository
                 Description = s.Description,
                 Active = s.Active,
                 EndDate = s.EndDate,
+                Sequence = s.Sequence,
                 ProductSections = s.ProductSections.Where(ps => ps.Product.Active).ToList()
             })
+            .OrderBy(s => s.Sequence)
             .ToListAsync();
 
     }
@@ -60,8 +62,10 @@ public class SectionRepository(PostgreSQLContext _context) : ISectionRepository
                 Description = s.Description,
                 Active = s.Active,
                 EndDate = s.EndDate,
+                Sequence = s.Sequence,
                 TotalProduct = s.ProductSections.Count()
             })
+            .OrderBy(s => s.Sequence)
             .ToListAsync();
     }
 

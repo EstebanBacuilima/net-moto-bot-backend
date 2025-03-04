@@ -15,6 +15,8 @@ public partial class Section
 
     public DateTime? EndDate { get; set; }
 
+    public short? Sequence { get; set; }
+
     public int TotalProduct { get; set; }
 
     public virtual ICollection<ProductSection> ProductSections { get; set; } = [];

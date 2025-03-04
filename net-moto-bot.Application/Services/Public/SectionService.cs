@@ -26,6 +26,7 @@ public class SectionService(
         finded.Name = section.Name;
         finded.Description = section.Description;
         finded.EndDate = section.EndDate;
+        finded.Sequence = section.Sequence;
 
         Validate(finded);
 
