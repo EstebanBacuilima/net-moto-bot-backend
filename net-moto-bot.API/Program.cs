@@ -84,6 +84,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("EnableCORS");
 
+app.UseStaticFiles();
+
 app.UseAuthorization();
 
 app.MapControllers();
