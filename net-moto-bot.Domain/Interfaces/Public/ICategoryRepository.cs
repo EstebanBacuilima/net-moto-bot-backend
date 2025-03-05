@@ -5,6 +5,7 @@ namespace net_moto_bot.Domain.Interfaces.Public;
 public interface ICategoryRepository
 {
     public Task<List<Category>> FindAllAsync();
+    public Task<List<Category>> FindAllContainingProductsAsync();
     public Task<Category?> FindByCodeAsync(string code);
     public Task<bool> ExistsByNameAsync(string name);
     public Task<Category> SaveAsync(Category category);

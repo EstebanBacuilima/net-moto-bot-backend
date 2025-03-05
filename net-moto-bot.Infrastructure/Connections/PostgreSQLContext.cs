@@ -41,7 +41,11 @@ public partial class PostgreSQLContext : DbContext
 
     public virtual DbSet<ProductImage> ProductImages { get; set; }
 
+    public virtual DbSet<ProductSection> ProductSections { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
+
+    public virtual DbSet<Section> Sections { get; set; }
 
     public virtual DbSet<Service> Services { get; set; }
 
@@ -353,6 +357,7 @@ public partial class PostgreSQLContext : DbContext
                 .HasMaxLength(20)
                 .HasColumnName("code");
             entity.Property(e => e.IssueDescription).HasColumnName("issue_description");
+            entity.Property(e => e.Keyword).HasColumnName("keyword");
             entity.Property(e => e.PossibleCauses).HasColumnName("possible_causes");
             entity.Property(e => e.SeverityLevel).HasColumnName("severity_level");
             entity.Property(e => e.SolutionSuggestion).HasColumnName("solution_suggestion");
@@ -421,6 +426,9 @@ public partial class PostgreSQLContext : DbContext
             entity.Property(e => e.Name)
                 .HasMaxLength(255)
                 .HasColumnName("name");
+            entity.Property(e => e.Percentage)
+                .HasPrecision(10, 2)
+                .HasColumnName("percentage");
             entity.Property(e => e.Price)
                 .HasPrecision(19, 5)
                 .HasColumnName("price");
@@ -503,6 +511,27 @@ public partial class PostgreSQLContext : DbContext
                 .HasConstraintName("fk_product_files__product_id");
         });
 
+        modelBuilder.Entity<ProductSection>(entity =>
+        {
+            entity.HasKey(e => new { e.ProductId, e.SectionId }).HasName("product_sections_pkey");
+
+            entity.ToTable("product_sections");
+
+            entity.Property(e => e.ProductId).HasColumnName("product_id");
+            entity.Property(e => e.SectionId).HasColumnName("section_id");
+            entity.Property(e => e.Active).HasColumnName("active");
+
+            entity.HasOne(d => d.Product).WithMany(p => p.ProductSections)
+                .HasForeignKey(d => d.ProductId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_product_sections__product_id");
+
+            entity.HasOne(d => d.Section).WithMany(p => p.ProductSections)
+                .HasForeignKey(d => d.SectionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_product_sections__section_id");
+        });
+
         modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("roles_pkey");
@@ -534,6 +563,31 @@ public partial class PostgreSQLContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("update_date");
             entity.Property(e => e.UserId).HasColumnName("user_id");
+        });
+
+        modelBuilder.Entity<Section>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("sections_pkey");
+
+            entity.ToTable("sections");
+
+            entity.Ignore(e => e.TotalProduct);//
+
+            entity.HasIndex(e => e.Code, "sections_code_key").IsUnique();
+
+            entity.Property(e => e.Id)
+                .HasIdentityOptions(null, null, null, null, true, null)
+                .HasColumnName("id");
+            entity.Property(e => e.Active).HasColumnName("active");
+            entity.Property(e => e.Code)
+                .HasMaxLength(20)
+                .HasColumnName("code");
+            entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.EndDate).HasColumnName("end_date");
+            entity.Property(e => e.Sequence).HasColumnName("sequence");
+            entity.Property(e => e.Name)
+                .HasMaxLength(255)
+                .HasColumnName("name");
         });
 
         modelBuilder.Entity<Service>(entity =>
@@ -683,6 +737,7 @@ public partial class PostgreSQLContext : DbContext
 
         OnModelCreatingPartial(modelBuilder);
     }
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
 }

@@ -36,6 +36,18 @@ public class CategoryController(
         return Ok(ResponseHandler.Ok(await _service.GetAllAsync()));
     }
 
+    [HttpGet, Route("list/by-existence-of-products")]
+    public async Task<IActionResult> GetAllContainingProductsAsync()
+    {
+        return Ok(ResponseHandler.Ok(await _service.GetAllContainingProductsAsync()));
+    }
+
+    [HttpGet, Route("find/by")]
+    public async Task<IActionResult> GetByCode([FromQuery] string code)
+    {
+        return Ok(ResponseHandler.Ok(await _service.GetByCodeAsync(code)));
+    }
+
     [HttpPut, Route("update/{code}")]
     public async Task<IActionResult> UpdateAsync(
         [FromBody] CategoryDTO category, string code)

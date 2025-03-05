@@ -25,6 +25,7 @@ public class ProductService(IProductRepository _repository) : IProductService
         finded.Description = product.Description;
         finded.Sku = product.Sku;
         finded.Price = product.Price;
+        finded.Percentage = product.Percentage;
 
         return await _repository.UpdateAsync(finded);
     }
@@ -54,6 +55,11 @@ public class ProductService(IProductRepository _repository) : IProductService
     public List<Product> GetAllByCategoryId(int categoryId)
     {
         return _repository.FindAllByCategoryId(categoryId);
+    }
+
+    public List<Product> GetAllByCategoryCode(string categoryCode) 
+    {
+        return _repository.FindAllByCategoryCode(categoryCode);
     }
 
     public Task<List<Product>> GetAllItemsAsync() 

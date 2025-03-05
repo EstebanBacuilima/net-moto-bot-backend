@@ -23,6 +23,14 @@ public class CategoryRepository(
              .ToListAsync();
     }
 
+    public Task<List<Category>> FindAllContainingProductsAsync()
+    {
+        return _context.Categories
+             .AsNoTracking()
+             .Where(c => c.Active && c.Products.Any(p => p.Active))
+             .ToListAsync();
+    }
+
     public Task<Category?> FindByCodeAsync(string code)
     {
         return _context.Categories

@@ -14,6 +14,7 @@ public class MotorcycleIssue
     public string? SolutionSuggestion { get; set; }
 
     public int? SeverityLevel { get; set; }
+    public string? Keyword { get; set; }
 
     public bool Active { get; set; }
 }

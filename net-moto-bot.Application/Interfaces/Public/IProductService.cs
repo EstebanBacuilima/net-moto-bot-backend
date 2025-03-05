@@ -11,6 +11,7 @@ public interface IProductService
     public Task<Product?> GetByIdAsync(int id);
     public Task<Product> ChangeStateAsync(string code, bool active);
     public List<Product> GetAllByCategoryId(int categoryId);
+    public List<Product> GetAllByCategoryCode(string categoryCode);
     public Task<List<Product>> GetAllItemsAsync();
     public Product? GetByCode(string code);
 }

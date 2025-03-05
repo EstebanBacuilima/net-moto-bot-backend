@@ -1,4 +1,6 @@
 ﻿
+using System.Text.Json.Serialization;
+
 namespace net_moto_bot.Domain.Entities;
 
 public partial class Product
@@ -21,6 +23,8 @@ public partial class Product
 
     public decimal Price { get; set; }
 
+    public decimal? Percentage { get; set; }
+
     public DateTime CreationDate { get; set; }
 
     public DateTime UpdateDate { get; set; }
@@ -33,4 +37,6 @@ public partial class Product
 
     public virtual ICollection<ProductImage> ProductImages { get; set; } = [];
 
+    [JsonIgnore]
+    public virtual ICollection<ProductSection> ProductSections { get; set; } = [];
 }

@@ -12,6 +12,11 @@ public class CategoryService(
         return _repository.FindAllAsync();
     }
 
+    public Task<List<Category>> GetAllContainingProductsAsync() 
+    {
+        return _repository.FindAllContainingProductsAsync();
+    }
+
     public Task<Category?> GetByCodeAsync(string code)
     {
         return _repository.FindByCodeAsync(code);

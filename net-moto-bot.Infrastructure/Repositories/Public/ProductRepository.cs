@@ -77,7 +77,6 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
     public List<Product> FindAllByCategoryId(int categoryId)
     {
         return [.. _context.Products.AsNoTracking()
-            .Include(p => p.ProductImages)
             .Where(p => p.CategoryId == categoryId &&
                         p.Active &&
                         p.ProductImages.Any(pf => pf.Active) &&
@@ -94,6 +93,35 @@ public class ProductRepository(PostgreSQLContext _context) : IProductRepository
                 Active = p.Active,
                 CreationDate = p.CreationDate,
                 UpdateDate = p.UpdateDate,
+                Price = p.Price,
+                Brand = p.Brand,
+                Percentage = p.Percentage,
+                ProductImages = p.ProductImages.Where(pf => pf.Active).ToList()
+            })];
+    }
+
+    public List<Product> FindAllByCategoryCode(string categoryCode)
+    {
+        return [.. _context.Products.AsNoTracking()
+            .Where(p => p.Category.Code.Equals(categoryCode) &&
+                        p.Active &&
+                        p.ProductImages.Any(pf => pf.Active) &&
+                        p.Category != null &&
+                        p.Category.Active )
+            .Select(p => new Product(){
+                Id = p.Id,
+                CategoryId = p.CategoryId,
+                BrandId = p.BrandId,
+                Code = p.Code,
+                Name = p.Name,
+                Sku = p.Sku,
+                Description = p.Description,
+                Active = p.Active,
+                CreationDate = p.CreationDate,
+                UpdateDate = p.UpdateDate,
+                Price = p.Price,
+                Brand = p.Brand,
+                Percentage = p.Percentage,
                 ProductImages = p.ProductImages.Where(pf => pf.Active).ToList()
             })];
     }
