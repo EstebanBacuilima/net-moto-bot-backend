@@ -59,6 +59,7 @@ public class CategoryRepository(
 
         finded.Name = category.Name;
         finded.Description = category.Description;
+        finded.Logo = category.Logo;
         await _context.SaveChangesAsync();
         return finded;
     }
