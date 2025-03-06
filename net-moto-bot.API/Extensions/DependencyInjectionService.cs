@@ -29,6 +29,7 @@ public static class DependencyInjectionService
         services.AddSingleton<IUploadFileService, UploadFileService>();
 
         // Public schema
+        services.AddScoped<IAppointmentService, AppointmentService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICustomerService, CustomerService>();

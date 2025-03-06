@@ -9,6 +9,8 @@ public interface ICustomerRepository
         string name = "",
         string idCard = ""
     );
+    public Task<bool> ExistsByIdCard(string idCard);
+    public Task<Customer?> FindByIdCardAsync(string idCard);
     public Task<Customer> SaveAsync(Customer customer);
     public Task<Customer?> FindByCodeAsync(string code);
     public Task<Customer> UpdateAsync(Customer customer);
