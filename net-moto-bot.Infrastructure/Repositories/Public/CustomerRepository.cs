@@ -9,13 +9,20 @@ public class CustomerRepository(
     PostgreSQLContext _context
 ) : ICustomerRepository
 {
+    public Task<bool> ExistsByIdCard(string idCard)
+    {
+        return _context.Customers
+            .AsNoTracking()
+            .AnyAsync(c => c.Person!.IdCard.Equals(idCard));
+    }
+
     public Task<List<Customer>> FindAllAsync(bool? active, string name = "", string idCard = "")
     {
         return _context.Customers
             .AsNoTracking()
             .Include(e => e.Person)
             .Where(c => (string.IsNullOrEmpty(name) || c.Person.FirstName.ToUpper().Contains(name.ToUpper())) &&
-                        (string.IsNullOrEmpty(idCard) || c.Person.IdCard.ToUpper().Contains(idCard.ToUpper())) && 
+                        (string.IsNullOrEmpty(idCard) || c.Person.IdCard.ToUpper().Contains(idCard.ToUpper())) &&
                         (!active.HasValue || active.Value == c.Active))
             .ToListAsync();
     }
@@ -25,6 +32,13 @@ public class CustomerRepository(
         return _context.Customers
             .AsNoTracking()
             .FirstOrDefaultAsync(c => c.Code == code);
+    }
+
+    public Task<Customer?> FindByIdCardAsync(string idCard)
+    {
+        return _context.Customers
+                  .AsNoTracking()
+                  .FirstOrDefaultAsync(c => c.Person!.IdCard.Equals(idCard));
     }
 
     public async Task<Customer> SaveAsync(Customer customer)

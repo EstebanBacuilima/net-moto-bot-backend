@@ -6,7 +6,7 @@ using net_moto_bot.Application.Dtos.Public.Request;
 using net_moto_bot.Application.Interfaces.Public;
 using net_moto_bot.Domain.Entities;
 
-namespace net_moto_bot.API.Controllers;
+namespace net_moto_bot.API.Controllers.V1;
 
 [Route("api/v1/appointment")]
 [ApiController]
