@@ -8,7 +8,7 @@ public partial class Employee
 
     public int PersonId { get; set; }
 
-    public int UserId { get; set; }
+    public long UserId { get; set; }
 
     public bool Active { get; set; }
 
