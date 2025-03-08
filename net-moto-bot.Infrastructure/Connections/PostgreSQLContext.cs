@@ -298,6 +298,7 @@ public partial class PostgreSQLContext : DbContext
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("creation_date");
             entity.Property(e => e.PersonId).HasColumnName("person_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.UpdateDate)
                 .HasColumnType("timestamp without time zone")
                 .HasColumnName("update_date");
@@ -306,6 +307,11 @@ public partial class PostgreSQLContext : DbContext
                 .HasForeignKey(d => d.PersonId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_employees__person_id");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Employees)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_employees__user_id");
         });
 
         modelBuilder.Entity<Establishment>(entity =>
