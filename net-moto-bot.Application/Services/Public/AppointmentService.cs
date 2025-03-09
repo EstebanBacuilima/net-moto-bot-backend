@@ -33,6 +33,6 @@ public class AppointmentService(
         string employeeIdCard = ""
     )
     {
-        return _repository.FindAllAsync(date, customerIdCard: idCard);
+        return _repository.FindAllAsync(date, customerIdCard: customerIdCard);
     }
 }
