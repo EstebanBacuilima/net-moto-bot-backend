@@ -18,6 +18,12 @@ public partial class Appointment
 
     public string? Observation { get; set; }
 
+
+    /// <summary>
+    /// P - pendiente, A - aprovado - D - denegado
+    /// </summary>
+    public char State { get; set; }
+
     public bool Active { get; set; }
 
     public DateTime CreationDate { get; set; }

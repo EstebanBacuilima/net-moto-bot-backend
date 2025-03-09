@@ -33,4 +33,14 @@ public class AppointmentController(
     {
         return Ok(ResponseHandler.Ok(await _service.GetAllByDateAndIdCardAsync(date, customerIdCard, employeeIdCard, name)));
     }
+
+    [HttpPut, Route("update-state/{code}")]
+    public async Task<IActionResult> UpdateStateAsync(
+        [FromBody] AppointmentDto request,
+        string code
+    )
+    {
+        request.Code = code;
+        return Ok(ResponseHandler.Ok(await _service.UpdateStateAsync(_mapper.Map<Appointment>(request))));
+    }
 }

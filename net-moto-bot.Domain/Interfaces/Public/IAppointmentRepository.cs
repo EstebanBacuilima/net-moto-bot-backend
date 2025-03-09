@@ -14,4 +14,5 @@ public interface IAppointmentRepository
     public Task<Appointment?> FindByCodeAsync(string code);
     public Task<Appointment> UpdateAsync(Appointment appointment);
     public Task<Appointment> UpdateActiveAsync(Appointment appointment);
+    public Task<Appointment> UpdateStateAsync(Appointment appointment);
 }

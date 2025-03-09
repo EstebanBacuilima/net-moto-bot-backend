@@ -55,4 +55,12 @@ public class AppointmentRepository(
         await _context.SaveChangesAsync();
         return appointment;
     }
+
+    public async Task<Appointment> UpdateStateAsync(Appointment appointment)
+    {
+        var finded = await _context.Appointments.FirstAsync(c => c.Code.Equals(appointment.Code));
+        finded.State = appointment.State;
+        await _context.SaveChangesAsync();
+        return appointment;
+    }
 }

@@ -11,4 +11,5 @@ public interface IAppointmentService
         string customerIdCard = "",
         string employeeIdCard = ""
     );
+    public Task<Appointment> UpdateStateAsync(Appointment appointment);
 }

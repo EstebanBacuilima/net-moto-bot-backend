@@ -128,6 +128,7 @@ public partial class PostgreSQLContext : DbContext
                 .HasIdentityOptions(null, null, null, null, true, null)
                 .HasColumnName("id");
             entity.Property(e => e.Active).HasColumnName("active");
+            entity.Property(e => e.State).HasColumnName("state");
             entity.Property(e => e.Code)
                 .HasMaxLength(20)
                 .HasColumnName("code");

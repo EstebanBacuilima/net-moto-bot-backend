@@ -18,6 +18,8 @@ public class AppointmentDto
 
     public DateTime Date { get; set; }
 
+    public char State { get; set; } = 'P';
+
     public string? Observation { get; set; }
 
     public bool Active { get; set; }

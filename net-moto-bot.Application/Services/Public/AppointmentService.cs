@@ -22,6 +22,7 @@ public class AppointmentService(
 
         if (customerSaved == null) throw new BadRequestException(ExceptionEnum.InvalidIdCard);
         appointment.CustomerId = customerSaved.Id;
+        appointment.Date = appointment.Date.ToLocalTime();
         // Create appointment
         return await _repository.SaveAsync(appointment);
     }
@@ -34,5 +35,10 @@ public class AppointmentService(
     )
     {
         return _repository.FindAllAsync(date, customerIdCard: customerIdCard, employeeIdCard: employeeIdCard, name: name);
+    }
+
+    public Task<Appointment> UpdateStateAsync(Appointment appointment)
+    {
+        return _repository.UpdateStateAsync(appointment);
     }
 }
