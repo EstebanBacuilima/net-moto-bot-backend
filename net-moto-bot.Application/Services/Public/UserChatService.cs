@@ -56,11 +56,12 @@ public class UserChatService(
     {
         string response = await _chatBotRepository.SendUserQueryAsync(userQueryRequest.UserQuery);
 
-        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(response);
+        //var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(response);
 
         return new()
         {
-            Text = Convert.ToBase64String(plainTextBytes),
+            Text = response,
+            //Text = Convert.ToBase64String(plainTextBytes),
             Date = DateTime.UtcNow,
             Type = (short)ChatTypeEnum.Bot
         };
