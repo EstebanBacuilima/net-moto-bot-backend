@@ -17,7 +17,9 @@ public class SectionRepository(PostgreSQLContext _context) : ISectionRepository
             .Include(s => s.ProductSections)
                 .ThenInclude(ps => ps.Product)
                     .ThenInclude(p => p.ProductImages)
-            .Where(s => s.Active && s.ProductSections.Any(ps => ps.Active))
+            .Where(s => s.Active &&
+                        (!s.EndDate.HasValue || s.EndDate.Value.Date >= DateTime.UtcNow.Date) &&
+                        s.ProductSections.Any(ps => ps.Active))
             .Select(s => new Section()
             {
                 Id = s.Id,
