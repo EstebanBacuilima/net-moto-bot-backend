@@ -20,9 +20,15 @@ public class AppointmentRepository(
             .AsNoTracking()
             .Where(a =>
                    (string.IsNullOrEmpty(name) || a.Establishment.Name.ToUpper().Contains(name.ToUpper())) &&
-                    (string.IsNullOrEmpty(employeeIdCard) || a.Employee.Person.IdCard.ToUpper().Contains(employeeIdCard.ToUpper())) &&
-                     (string.IsNullOrEmpty(customerIdCard) || a.Customer.Person.IdCard.ToUpper().Contains(customerIdCard.ToUpper()))
+                    (string.IsNullOrEmpty(employeeIdCard) || a.Employee!.Person!.IdCard.ToUpper().Contains(employeeIdCard.ToUpper())) &&
+                     (string.IsNullOrEmpty(customerIdCard) || a.Customer!.Person!.IdCard.ToUpper().Contains(customerIdCard.ToUpper()))
             )
+            .Include(a => a.Customer)
+                .ThenInclude(c => c.Person)
+            .Include(a => a.Employee)
+                .ThenInclude(e => e.Person)
+            .Include(a => a.Service)
+            .Include(a => a.Establishment)
             .ToListAsync();
     }
 
