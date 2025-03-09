@@ -52,15 +52,15 @@ public class UserChatService(
             : [];
     }
 
-    public async Task<BotResponseDto> GetQueryAsync(UserQueryRequestDto userQueryRequest) 
+    public async Task<BotResponseDto> GetQueryAsync(UserQueryRequestDto userQueryRequest)
     {
         string response = await _chatBotRepository.SendUserQueryAsync(userQueryRequest.UserQuery);
 
-        //string data = ExtractDataFromJson(response);
+        var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(response);
 
         return new()
         {
-            Text = response,
+            Text = Convert.ToBase64String(plainTextBytes),
             Date = DateTime.UtcNow,
             Type = (short)ChatTypeEnum.Bot
         };
