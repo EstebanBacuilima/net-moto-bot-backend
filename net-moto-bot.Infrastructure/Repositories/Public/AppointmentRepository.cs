@@ -18,7 +18,7 @@ public class AppointmentRepository(
     {
         return _context.Appointments
             .AsNoTracking()
-            .Where(a => a.Date == date &&
+            .Where(a =>
                    (string.IsNullOrEmpty(name) || a.Establishment.Name.ToUpper().Contains(name.ToUpper())) &&
                     (string.IsNullOrEmpty(employeeIdCard) || a.Employee.Person.IdCard.ToUpper().Contains(employeeIdCard.ToUpper())) &&
                      (string.IsNullOrEmpty(customerIdCard) || a.Customer.Person.IdCard.ToUpper().Contains(customerIdCard.ToUpper()))

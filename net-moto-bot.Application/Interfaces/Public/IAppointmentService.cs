@@ -5,5 +5,10 @@ namespace net_moto_bot.Application.Interfaces.Public;
 public interface IAppointmentService
 {
     public Task<Appointment> CreateAsync(Appointment appointment);
-    public Task<List<Appointment>> GetAllByDateAndIdCardAsync(DateTime date, string idCard);
+    public Task<List<Appointment>> GetAllByDateAndIdCardAsync(
+        DateTime date, 
+        string name = "",
+        string customerIdCard = "",
+        string employeeIdCard = ""
+    );
 }

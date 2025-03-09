@@ -26,7 +26,12 @@ public class AppointmentService(
         return await _repository.SaveAsync(appointment);
     }
 
-    public Task<List<Appointment>> GetAllByDateAndIdCardAsync(DateTime date, string idCard)
+    public Task<List<Appointment>> GetAllByDateAndIdCardAsync(
+        DateTime date,
+        string name = "",
+        string customerIdCard = "",
+        string employeeIdCard = ""
+    )
     {
         return _repository.FindAllAsync(date, customerIdCard: idCard);
     }
