@@ -31,7 +31,11 @@ public class UserRepository(PostgreSQLContext _context) : IUserRepository
 
     public Task<List<User>> FindAllAsync()
     {
-        return _context.Users.AsNoTracking().ToListAsync();
+        return _context.Users
+            .AsNoTracking()
+            .Include(u => u.Person)
+            .Include(u => u.UserRoles)
+            .ToListAsync();
     }
 
     public Task<bool> ExistsByIdAsync(long id)
