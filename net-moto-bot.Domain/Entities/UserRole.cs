@@ -1,4 +1,6 @@
-﻿namespace net_moto_bot.Domain.Entities;
+﻿using System.Text.Json.Serialization;
+
+namespace net_moto_bot.Domain.Entities;
 
 public partial class UserRole
 {
@@ -8,7 +10,9 @@ public partial class UserRole
 
     public DateTime CreationDate { get; set; }
 
+    [JsonIgnore]
     public virtual Role Role { get; set; } = null!;
 
+    [JsonIgnore]
     public virtual User User { get; set; } = null!;
 }
