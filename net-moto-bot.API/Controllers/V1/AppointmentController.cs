@@ -32,7 +32,7 @@ public class AppointmentController(
         [FromQuery(Name = "employee-id-card")] string employeeIdCard = ""
     )
     {
-        return Ok(ResponseHandler.Ok(await _service.GetAllByDateAndIdCardAsync(date, customerIdCard, employeeIdCard, name)));
+        return Ok(ResponseHandler.Ok(await _service.GetAllByDateAndIdCardAsync(date, name, customerIdCard, employeeIdCard)));
     }
 
     [HttpPut, Route("update-state/{code}")]
