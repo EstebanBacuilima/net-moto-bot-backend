@@ -15,4 +15,5 @@ public interface ICustomerRepository
     public Task<Customer?> FindByCodeAsync(string code);
     public Task<Customer> UpdateAsync(Customer customer);
     public Task<Customer> UpdateActiveAsync(Customer customer);
+    public Customer FindById(int id);
 }

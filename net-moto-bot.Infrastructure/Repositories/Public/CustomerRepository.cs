@@ -63,4 +63,11 @@ public class CustomerRepository(
         await _context.SaveChangesAsync();
         return finded;
     }
+
+    public Customer FindById(int id) 
+    {
+        return _context.Customers.AsNoTracking()
+            .Include(c => c.Person)
+            .First(c => c.Id == id);
+    }
 }

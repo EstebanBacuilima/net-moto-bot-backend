@@ -2,13 +2,16 @@
 using net_moto_bot.Domain.Entities;
 using net_moto_bot.Domain.Enums.Custom;
 using net_moto_bot.Domain.Exceptions.BadRequest;
+using net_moto_bot.Domain.Interfaces.Integration;
 using net_moto_bot.Domain.Interfaces.Public;
+using net_moto_bot.Domain.Models;
 
 namespace net_moto_bot.Application.Services.Public;
 
 public class AppointmentService(
     IAppointmentRepository _repository,
-    ICustomerRepository _customerRepository
+    ICustomerRepository _customerRepository,
+    IEmailRepository _emailRepository
 ) : IAppointmentService
 {
     public async Task<Appointment> CreateAsync(Appointment appointment)
@@ -24,7 +27,11 @@ public class AppointmentService(
         appointment.CustomerId = customerSaved.Id;
         appointment.Date = appointment.Date.ToLocalTime();
         // Create appointment
-        return await _repository.SaveAsync(appointment);
+        Appointment appointmentResponse = await _repository.SaveAsync(appointment);
+
+        _ = BuildEmailAsync(appointmentResponse);
+
+        return appointmentResponse;
     }
 
     public Task<List<Appointment>> GetAllByDateAndIdCardAsync(
@@ -37,8 +44,47 @@ public class AppointmentService(
         return _repository.FindAllAsync(date, customerIdCard: customerIdCard, employeeIdCard: employeeIdCard, name: name);
     }
 
-    public Task<Appointment> UpdateStateAsync(Appointment appointment)
+    public async Task<Appointment> UpdateStateAsync(Appointment appointment)
     {
-        return _repository.UpdateStateAsync(appointment);
+        Appointment appointmentResponse = await _repository.UpdateStateAsync(appointment);
+
+        _ = BuildEmailAsync(appointmentResponse);
+
+        return appointmentResponse;
+    }
+
+    public async Task SendMailAsync(EmailModel email)
+    {
+        await _emailRepository.SendEmailAsync(email);
+    }
+
+
+    public async Task BuildEmailAsync(Appointment appointment)
+    {
+        Customer customer = _customerRepository.FindById(appointment.CustomerId);
+
+        string fullName = customer.Person.FirstName + " " + customer.Person.LastName;
+
+        string idCard = customer.Person.IdCard;
+
+        EmailModel emailModel = new()
+        {
+            To = customer.Person.Email!,
+            Subject = "ESTADO DE CITA",
+            Message = $@"HOLA {fullName} - {idCard}. {GetStatus(appointment.State.ToString())}"
+        };
+
+        await SendMailAsync(emailModel);
+    }
+
+    public static string GetStatus(string status)
+    {
+        return status switch
+        {
+            "A" => "Hemos procedido a APROVAR su cita.",
+            "D" => "Hemos DENEGADO su cita por algunas inconcistecias",
+            "P" => "Su estado de cita se encuentra PENDIENTE.",
+            _ => "DENEGADO",
+        };
     }
 }

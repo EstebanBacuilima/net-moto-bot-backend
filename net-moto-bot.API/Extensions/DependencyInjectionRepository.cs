@@ -27,11 +27,14 @@ public static class DependencyInjectionServiceRepository
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IUserChatRepository, UserChatRepository>();
         services.AddScoped<IMotorcycleIssueRepository, MotorcycleIssueRepository>();
-        services.AddScoped<IChatBotRepository, ChatBotRepository>();
         services.AddScoped<IAttributeRepository , AttributeRepository>();
         services.AddScoped<IProductAttributeRepository, ProductAttributeRepository>();
         services.AddScoped<ISectionRepository, SectionRepository>();
         services.AddScoped<IProductSectionRepository, ProductSectionRepository>();
+
+        // External
+        services.AddScoped<IChatBotRepository, ChatBotRepository>();
+        services.AddScoped<IEmailRepository, EmailRepository>();
 
         // Mongo
         services.AddScoped<IMongoRepository, MongoRepository>();

@@ -1,4 +1,5 @@
 ﻿using net_moto_bot.Domain.Entities;
+using net_moto_bot.Domain.Models;
 
 namespace net_moto_bot.Application.Interfaces.Public;
 
@@ -12,4 +13,5 @@ public interface IAppointmentService
         string employeeIdCard = ""
     );
     public Task<Appointment> UpdateStateAsync(Appointment appointment);
+    public Task SendMailAsync(EmailModel email);
 }

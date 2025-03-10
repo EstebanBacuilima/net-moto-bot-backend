@@ -5,6 +5,7 @@ using net_moto_bot.Application.Dtos.Custom;
 using net_moto_bot.Application.Dtos.Public.Request;
 using net_moto_bot.Application.Interfaces.Public;
 using net_moto_bot.Domain.Entities;
+using net_moto_bot.Domain.Models;
 
 namespace net_moto_bot.API.Controllers.V1;
 
@@ -42,5 +43,13 @@ public class AppointmentController(
     {
         request.Code = code;
         return Ok(ResponseHandler.Ok(await _service.UpdateStateAsync(_mapper.Map<Appointment>(request))));
+    }
+
+    [HttpPost, Route("create/send-email")]
+    public async Task<IActionResult> Send(
+        [FromBody] EmailModel email)
+    {
+        await _service.SendMailAsync(email);
+        return Ok(ResponseHandler.Ok());
     }
 }
