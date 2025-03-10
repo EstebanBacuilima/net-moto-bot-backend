@@ -67,6 +67,6 @@ public class AppointmentRepository(
         var finded = await _context.Appointments.FirstAsync(c => c.Code.Equals(appointment.Code));
         finded.State = appointment.State;
         await _context.SaveChangesAsync();
-        return appointment;
+        return finded;
     }
 }

@@ -29,6 +29,6 @@ public class EmailRepository(
         };
         using HttpResponseMessage responseMessage = await _httpClient.SendAsync(requestMessage);
         string data = await responseMessage.Content.ReadAsStringAsync();
-        return data;
+        return data;    
     }
 }
