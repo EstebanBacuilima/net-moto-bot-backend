@@ -6,6 +6,8 @@ using MongoDB.Driver;
 using net_moto_bot.API.Extensions;
 using net_moto_bot.Infrastructure.Connections;
 using net_moto_bot.Infrastructure.Connections.Mongo;
+using Npgsql;
+using System.Data;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +35,11 @@ builder.Services.AddSingleton<MongoDBContext>();
 builder.Services.AddDbContext<PostgreSQLContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQLConnection"));
+});
+
+builder.Services.AddTransient<IDbConnection>(sp =>
+{
+    return new NpgsqlConnection(builder.Configuration.GetConnectionString("PostgreSQLConnection"));
 });
 
 // Declare all repositories and services

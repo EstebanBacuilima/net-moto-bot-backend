@@ -1,9 +1,13 @@
 ﻿using net_moto_bot.Domain.Entities;
+using net_moto_bot.Domain.Models;
 
 namespace net_moto_bot.Domain.Interfaces.Public;
 
 public interface IAppointmentRepository
 {
+    public List<DataChart> FindAllServiceDataChart();
+    public List<DataChart> FindAllEstablishmentDataChart();
+    public List<DataChart> FindAllStateDataChart();
     public Task<List<Appointment>> FindAllAsync(
         DateTime date,
         string name = "",

@@ -52,4 +52,22 @@ public class AppointmentController(
         await _service.SendMailAsync(email);
         return Ok(ResponseHandler.Ok());
     }
+
+    [HttpGet, Route("list/most-used-services")]
+    public IActionResult GetMostUsedServices()
+    {
+        return Ok(ResponseHandler.Ok(_service.GetAllServiceDataChart()));
+    }
+
+    [HttpGet, Route("list/most-used-establishments")]
+    public IActionResult GetMostUsedEstablishments()
+    {
+        return Ok(ResponseHandler.Ok(_service.GetAllEstablishmentDataChart()));
+    }
+
+    [HttpGet, Route("list/chart-state")]
+    public IActionResult GellAllStates()
+    {
+        return Ok(ResponseHandler.Ok(_service.GetAllStateDataChart()));
+    }
 }

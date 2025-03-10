@@ -14,6 +14,22 @@ public class AppointmentService(
     IEmailRepository _emailRepository
 ) : IAppointmentService
 {
+
+    public List<DataChart> GetAllServiceDataChart()
+    {
+        return _repository.FindAllServiceDataChart();
+    }
+
+    public List<DataChart> GetAllEstablishmentDataChart()
+    {
+        return _repository.FindAllEstablishmentDataChart();
+    }
+
+    public List<DataChart> GetAllStateDataChart() 
+    {
+        return _repository.FindAllStateDataChart();
+    }
+
     public async Task<Appointment> CreateAsync(Appointment appointment)
     {
         // Create or get customer

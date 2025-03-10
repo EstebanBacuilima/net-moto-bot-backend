@@ -5,6 +5,10 @@ namespace net_moto_bot.Application.Interfaces.Public;
 
 public interface IAppointmentService
 {
+    public List<DataChart> GetAllServiceDataChart();
+    public List<DataChart> GetAllEstablishmentDataChart();
+    public List<DataChart> GetAllStateDataChart();
+
     public Task<Appointment> CreateAsync(Appointment appointment);
     public Task<List<Appointment>> GetAllByDateAndIdCardAsync(
         DateTime date, 
