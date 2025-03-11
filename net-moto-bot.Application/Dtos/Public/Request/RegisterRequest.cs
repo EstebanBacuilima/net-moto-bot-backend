@@ -2,6 +2,8 @@
 
 public class RegisterRequest
 {
+    public string Code { get; set; } = string.Empty;
+
     public string IdCard { get; set; } = string.Empty;
 
     public string FirstName { get; set; } = string.Empty;

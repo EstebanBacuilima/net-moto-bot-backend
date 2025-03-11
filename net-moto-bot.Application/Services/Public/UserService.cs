@@ -95,5 +95,35 @@ public class UserService(
         };
     }
 
-
+    public async Task<User> UpdateAsync(RegisterRequest request)
+    {
+        // Find th user.
+        var userFinded = await _repository.FindByCodeAsync(request.Code);
+        if (userFinded == null) throw new BadCredentialException(ExceptionEnum.UserNotFound);
+        Person? person = null;
+        // Create person.
+        if (userFinded.Person != null)
+        {
+            person = new()
+            {
+                Code = userFinded.Person.Code,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+            };
+        }
+        // Create user.
+        User user = new()
+        {
+            Code = request.Code,
+            DisplayName = $"{request.FirstName} {request.LastName}",
+            PhotoUrl = request.PhotoUrl,
+            PhoneNumber = request.PhoneNumber,
+            Person = person ?? new(),
+        };
+        if (user.Person != null && user.Person.Id != 0) person = await _personRepository.UpdateAsync(user.Person);
+        user = await _repository.UpdateAsync(user);
+        user.Person = person ?? new();
+        return user;
+    }
 }

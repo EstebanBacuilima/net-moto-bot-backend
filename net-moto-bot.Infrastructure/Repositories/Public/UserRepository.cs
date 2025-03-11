@@ -20,6 +20,7 @@ public class UserRepository(PostgreSQLContext _context) : IUserRepository
     {
         return _context.Users
             .AsNoTracking()
+            .Include(u => u.Person)
             .FirstOrDefaultAsync(u => u.Code.Equals(code));
     }
     public Task<User?> FindByIdAsync(long id)
