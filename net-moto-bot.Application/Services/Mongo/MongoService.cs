@@ -53,14 +53,29 @@ public class MongoService(
             BsonDocument newDocument = BsonDocument.Parse(json);
 
             await _repository.SaveAsync(collectionName, newDocument);
-            return (newDocument.ToDictionary(), existDocument) ;
+            return (newDocument.ToDictionary(), existDocument);
         }
 
         //return (dictionary, existDocument);
     }
 
-    public Task<BsonDocument> GetDataAsync(FilterDefinition<BsonDocument> filter) 
+    public async Task SaveAsync(List<Dictionary<string, object?>> documents)
     {
-        return  _repository.FindDataAsync("chats", filter);
+        string collectionName = "chats";
+
+        Dictionary<string, object?> dictionary = [];
+
+        dictionary["messages"] = documents;
+
+        string json = JsonSerializer.Serialize(dictionary, _serializerOptions);
+        BsonDocument newDocument = BsonDocument.Parse(json);
+
+        await _repository.SaveAsync(collectionName, newDocument);
+        //return (newDocument.ToDictionary(), existDocument);
+    }
+
+    public Task<BsonDocument> GetDataAsync(FilterDefinition<BsonDocument> filter)
+    {
+        return _repository.FindDataAsync("chats", filter);
     }
 }

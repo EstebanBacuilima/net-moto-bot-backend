@@ -58,6 +58,25 @@ public class UserChatService(
 
         //var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(response);
 
+        _ = Task.Run(async () =>
+        {
+            List<Dictionary<string, object?>> dictionaries = [];
+
+            Dictionary<string, object?> dictionaryRequest = [];
+            dictionaryRequest.Add("text", userQueryRequest.UserQuery);
+            dictionaryRequest.Add("date", DateTime.UtcNow);
+            dictionaryRequest.Add("type", (short)ChatTypeEnum.User);
+            dictionaries.Add(dictionaryRequest);
+
+            Dictionary<string, object?> dictionaryResponse = [];
+            dictionaryResponse.Add("text", response);
+            dictionaryResponse.Add("date", DateTime.UtcNow);
+            dictionaryResponse.Add("type", (short)ChatTypeEnum.Bot);
+            dictionaries.Add(dictionaryResponse);
+
+            await _mongoService.SaveAsync(dictionaries);
+        });
+
         return new()
         {
             Text = response,
